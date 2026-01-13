@@ -101,19 +101,45 @@ export async function deleteBrand(req, res) {
 
 export async function getBrands(req, res) {
     try {
-        const brands = await Brand.findAll();
-        return res.
-            status(200).
-            json({
-                message: 'Brands retrieved successfully',
-                brands: brands
-            });
+        // recibir parametros y sino este es el default
+        let {
+            page = 1,
+            limit = 10,
+            sort = 'ASC'
+        } = req.query;
+        page = parseInt(page);
+        limit = parseInt(limit); //VALIDACIONES?
+
+        const offset = (page - 1) * limit;
+        const orderDirection = sort.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+
+        const { count, rows: brands } = await Brand.findAndCountAll({
+            order: [['name', orderDirection]], //ordeno por nombre y criterio de orden
+            limit: limit,
+            offset: offset
+        });
+
+        // 6. Preparar respuesta con metadata para el front
+        const totalPages = Math.ceil(count / limit);
+        return res.status(200).json({
+            // Datos crudos
+            brands: brands,
+            // Metadata de paginación (Vital para que el front dibuje los botones de < 1 2 3 >)
+            pagination: {
+                totalItems: count,
+                totalPages: totalPages,
+                currentPage: page,
+                itemsPerPage: limit
+            }
+        });
+
+
     }
     catch (error) {
-        console.error('Error retrieving brands:', error);
+        console.error('Error getting brands:', error);
         return res.status(500).json({ 
-            message: 'Internal server error',
-            error: error.message
+            message: 'Error al obtener las marcas',
+            error: error.message 
         });
     }
 }

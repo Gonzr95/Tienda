@@ -9,6 +9,6 @@ router.post('/brands', validateSchema(createSchema), createBrand);
 // ?queryParams: purpose is to send strings to filter, sort or paginate resources
 router.put('/brands/:id', validateSchema(updateSchema), updateBrand);
 //router.delete('/brands/:id', validateSchema(deleteSchema), deleteBrand);
-///router.get('/brands', getBrands);
+router.get('/brands', getBrands);
 
 export { router };
