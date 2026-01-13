@@ -9,9 +9,8 @@ export async function checkBrandExistenceByName( brandName ) {
         }
     });
     
-    if (existingBrand) {
-        throw new Error("BRAND_EXISTS");
-    }
+
+    return existingBrand;
 }
 
 export async function checkBrandExistenceById( brandId ) {

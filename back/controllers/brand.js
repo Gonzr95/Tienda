@@ -9,8 +9,12 @@ from '../services/brandService.js';
 export async function createBrand(req, res) {
     try {
         const { name } = req.body;
-        await checkBrandExistenceByName( name );
-
+        const existingBrand = await checkBrandExistenceByName( name );
+        if(existingBrand) {
+            return res.status(409).json({
+                message: 'Brand already exists in the system'
+            });
+        } 
         const newBrand = await Brand.create({ name });
 
         return res.

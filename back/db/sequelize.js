@@ -2,9 +2,7 @@ import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 dotenv.config();
 console.log('DB_NAME:', process.env.DB_NAME);
-
 console.log('DB_USER:', process.env.DB_USER);
-
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,

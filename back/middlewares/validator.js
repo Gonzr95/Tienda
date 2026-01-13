@@ -1,4 +1,4 @@
-export const validateSchema = (schema) => (req, res, next) => {
+export const validateBodySchema = (schema) => (req, res, next) => {
     const result = schema.safeParse(req. body);
 
     if (!result.success) {
@@ -34,6 +34,26 @@ export const validateSchema = (schema) => (req, res, next) => {
     // 3. reemplazo datos validados por si vienen campos extra que no son deseados
     req.body = result.data;
 
+    next();
+};
+
+export const validateQuerySchema = (schema) => (req, res, next) => {
+    const result = schema.safeParse(req.query);
+
+    if (!result.success) {
+        const formattedErrors = result.error.issues.map(issue => ({
+            field: issue.path.join("."),
+            message: issue.message
+        }));
+
+        return res.status(400).json({
+            message: "Error de validación",
+            errors: formattedErrors
+        });
+    }
+
+    // 3. reemplazo datos validados por si vienen campos extra que no son deseados
+    
     next();
 };
 
