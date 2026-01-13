@@ -79,14 +79,23 @@ export async function updateBrand(req, res) {
 
 export async function deleteBrand(req, res) {   
     try {
-        const { id } = req.params;
-        const brand = await Brand.findByPk(id);
-        if (!brand) {
+        const { id, name } = req.body;
+
+        const brandToDelete = await Brand.findOne({ 
+            where: { 
+                id, 
+                name
+            }   
+        });
+        if (!brandToDelete) {
             return res.status(404).json({
                 message: 'Brand not found'
             });
         }
-        await brand.destroy();
+
+
+
+        await brandToDelete.destroy();
         return res.
             status(200).
             json({
