@@ -1,21 +1,18 @@
 import { z } from 'zod';
 
-export const createBrand = z.object({
+export const createSchema = z.object({
     name: z.
     string().
     min(1, 'Name is required')
 });
 
-export const updateBrand = z.object({
+export const updateSchema = z.object({
     name: z.
     string().
-    min(1),
-
-    id: z.
-    coerce.number()
+    min(1)
 });
 
-export const deleteBrand = z.object({
+export const deleteSchema = z.object({
     name: z.
     string().
     min(1),
