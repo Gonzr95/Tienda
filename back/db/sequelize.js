@@ -1,0 +1,27 @@
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const sequelize = new sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
+    {
+        host: process.env.HOST,
+        port: process.env.PORT ?? 3306,
+        dialect: 'mysql',
+        logging: false 
+    }
+);
+
+const connectDB = async () => {
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync();
+    console.log("Conexión a MySQL establecida correctamente.");
+  } catch (error) {
+    console.error("Error al conectar con MySQL:", error);
+    }
+};
+
+export { sequelize, connectDB };
