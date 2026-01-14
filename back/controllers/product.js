@@ -1,14 +1,18 @@
 import { checkBrandExistenceByName } from '../services/brandService.js';
-import { checkProductExistenceByName } from '../services/productService.js';
+import { checkProductExistenceByName, checkImages, 
+         createFolder, saveImages } from '../services/productService.js';
 import { Product } from '../models/Product.js';
 
-export async function createProduct(req, res) {
-    //check que la marca exista
-    //si no existe, error 404
-    //chequear si el producto existe
-    //si existe, error 409
-    //crear el producto
 
+/*
+    check que la marca exista
+    si no existe, error 404
+    chequear si el producto existe
+    si existe, error 409
+    si no existe procedo a guardar las imagenes
+    crear el producto
+*/
+export async function createProduct(req, res) {
     try {
         const existingBrand = await checkBrandExistenceByName( req.body.brandName );
         if (!existingBrand) {
@@ -16,9 +20,6 @@ export async function createProduct(req, res) {
                 message: 'Brand not found'
             });
         }
-
-        const { name, lineUp, description, price, stock, isActive } = req.body;
-
         
         const existingProduct = await checkProductExistenceByName({ productData: req.body });
         if (existingProduct) {
@@ -27,6 +28,12 @@ export async function createProduct(req, res) {
             });
         }
 
+        const { name, lineUp, description, price, stock, isActive } = req.body;
+        const files = req.files;
+        await checkImages(files);
+        const targetFolder = await createFolder(productData);
+        const imagePaths = await saveImages(files, targetFolder);
+
         const newProduct = await Product.create({
             name,
             brandId: existingBrand.id,
@@ -34,7 +41,9 @@ export async function createProduct(req, res) {
             description,
             price,
             stock,
-            isActive
+            isActive,
+            images: imagePaths, // Array de rutas de imágenes
+            productFolder: targetFolder // Ruta base de la carpeta para tareas de mantenimiento
         });
         
         return res.

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 const router = Router();
+import { upload } from "../middlewares/upload.js";
 import { 
     validateBodySchema,
     validateQuerySchema
@@ -14,7 +15,11 @@ import {
 
 
 
-router.post('/products', validateBodySchema(createSchema), createProduct);
+router.post('/products', 
+    upload.array("images", 5), 
+    validateBodySchema(createSchema), 
+    createProduct);
+
 
 
 export { router };

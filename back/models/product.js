@@ -40,6 +40,17 @@ export const Product = sequelize.define("Product", {
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
+    },
+
+    images: {
+      type: DataTypes.JSON, // Ideal para arrays/objetos en MySQL
+      allowNull: true,
+      defaultValue: [],
+    },
+  
+    productFolder: {
+      type: DataTypes.STRING,
+      allowNull: true,
     }
     }, {
         timestamps: true, //created updated
