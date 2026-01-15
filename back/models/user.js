@@ -35,8 +35,8 @@ export const User = sequelize.define(
     },
   },
   {
-    tableName: "users",   // nombre exacto en MySQL
-    timestamps: true,     // createdAt / updatedAt
+    tableName: "users",   
+    timestamps: true,     
   }
 );
 
