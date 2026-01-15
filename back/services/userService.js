@@ -1,15 +1,13 @@
 import { User } from '../models/user.js'; 
 import { hashPassword, comparePassword} from '../utils/bcrypt.js'; 
-import { generateToken } from '../utils/jwt.js';
-import { BlacklistedToken } from '../models/blacklistedToken.js';
+//import { generateToken } from '../utils/jwt.js';
+//import { BlacklistedToken } from '../models/blacklistedToken.js';
 
 export async function register(userData) {
     const { firstName, lastName, mail, pass } = userData;
 
-    // 1. Lógica de negocio: Hashear password
     const hashedPass = await hashPassword(pass);
 
-    // 2. Persistencia: Crear usuario
     // El error de Sequelize se lanzará aquí y subirá al controller
     const newUser = await User.create({
         firstName,

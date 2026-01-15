@@ -3,6 +3,7 @@ import { UniqueConstraintError } from 'sequelize';
 
 export async function register(req, res) {
     try {
+        console.log("Register controller called with data:", req.body);
         const result = await userService.register(req.body);
         return res.status(201).json(result);
         

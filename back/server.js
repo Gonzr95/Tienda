@@ -10,7 +10,7 @@ import { setupAssociations } from './models/associations.js';
 
 import { router as brandsRouter } from './routes/brands.js';
 import { router as productsRouter } from './routes/products.js';
-
+import { router as usersRouter } from './routes/users.js';
 
 connectDB();
 setupAssociations();
@@ -31,7 +31,7 @@ app.use(express.json());
 //app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies
 app.use('/api', brandsRouter);
 app.use('/api', productsRouter);
-
+app.use('/api', usersRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
