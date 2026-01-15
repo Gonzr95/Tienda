@@ -11,7 +11,6 @@ export const validateBodySchema = (schema) => (req, res, next) => {
         */
         // -----------------
         // result.error contiene el ZodError con los detalles y stack trace 
-        console.log(req.body);
         const formattedErrors = result.error.issues.map(issue => ({
             field: issue.path.join("."),
             message: issue.message
