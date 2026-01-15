@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { upload } from "../middlewares/upload.js";
+import { upload } from "../middlewares/multer.js";
 import { 
     validateBodySchema,
     validateQuerySchema

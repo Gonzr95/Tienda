@@ -2,7 +2,7 @@ import { Product } from "../models/Product.js";
 import path from 'path';
 import fs from 'fs/promises';
 
-export async function checkProductExistenceByName({ productData } ) {
+export async function checkProductExistenceByName( productData ) {
     const existingProduct = await Product.findOne({
         where: {
             name: productData.name,
@@ -53,7 +53,7 @@ export async function createFolder(productData) {
     //esta logica de el nombramiento de la carpeta deberia ser movida a utils de producto
     //creacion dinamica del nombre de la carpeta
     //limpiza de los nombres
-    const safeType = productData.productType.
+    const safeType = productData.name.
         trim().
         replace(/\s+/g, '-').
         toLowerCase();
