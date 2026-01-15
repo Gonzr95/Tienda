@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
 dotenv.config(); // Cargar variables desde .env
 
+// require('crypto').randomBytes(64).toString('hex');
+
 const SECRET = process.env.JWT_SECRET || 'secreto_temporal_para_desarrollo'; // Fallback por seguridad
 
 export function generateToken(payload) {
