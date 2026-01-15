@@ -20,6 +20,9 @@ router.post('/products',
     validateBodySchema(createSchema), 
     createProduct);
 
-
+router.put('/products/:id', 
+    upload.array("images", 5), 
+    validateBodySchema(createSchema), 
+    createProduct);
 
 export { router };

@@ -26,7 +26,6 @@ export async function createProduct(req, res) {
             lineUp: req.body.lineUp,
             description: req.body.description
         }
-        console.log('Product Data to Check:', productData);
         const existingProduct = await checkProductExistenceByName(productData);
         if (existingProduct) {
             return res.status(409).json({
