@@ -81,8 +81,8 @@ document.getElementById('quick-access-btn').addEventListener('click', () => {
 });
 
 document.getElementById('admin-btn').addEventListener('click', async() => {
-    const response = await fetch(`${devBackendURL}/backoffice`);
+    const response = await fetch(`${devBackendURL}/api/backoffice`);
 
-}
+});
 
 // ************ ADMINISTRADOR ************ //
