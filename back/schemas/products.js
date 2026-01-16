@@ -4,7 +4,7 @@ export const createSchema = z.object({
     name: z
     .string()
     .nonempty()
-    .min(4)
+    .min(2)
     .max(32),
 
     brandName: z.
@@ -41,3 +41,53 @@ export const createSchema = z.object({
     })
     .transform(v => v === "true")
 });
+
+export const getProductsQuerySchema = z.object({
+    page: z.coerce
+    .number()
+    .min(1)
+    .default(1),
+
+    limit: z.coerce
+    .number()
+    .min(1)
+    .max(100)
+    .default(10),
+
+    sortBy: z
+    .enum(['id', 'name', 'price', 'brand', 'price', 'isActive'])
+    .default('id')
+    .optional(),
+
+    sortOrder: z
+    .enum(['ASC', 'DESC', 'asc', 'desc'])
+    .default('ASC')
+    .transform((val) => val.toUpperCase()),
+
+    // --- FILTROS ---
+
+    id: z.coerce
+    .number()
+    .optional(),
+
+    brand: z
+      .string()
+      .trim()
+      .optional(),
+
+    isActive: z
+    .enum(["true", "false"])
+    .optional()
+    .transform(v => v === "true"),
+
+    // Para el precio, usualmente es mejor manejar rangos (min/max)
+    minPrice: z.coerce
+      .number()
+      .min(0)
+      .optional(),
+
+    maxPrice: z.coerce
+      .number()
+      .min(0)
+      .optional()
+})

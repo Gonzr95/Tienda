@@ -1,4 +1,4 @@
-export const validateBodySchema = (schema) => (req, res, next) => {
+const body = (schema) => (req, res, next) => {
     const result = schema.safeParse(req. body);
 
     if (!result.success) {
@@ -36,7 +36,7 @@ export const validateBodySchema = (schema) => (req, res, next) => {
     next();
 };
 
-export const validateQuerySchema = (schema) => (req, res, next) => {
+const query = (schema) => (req, res, next) => {
     const result = schema.safeParse(req.query);
 
     if (!result.success) {
@@ -56,3 +56,7 @@ export const validateQuerySchema = (schema) => (req, res, next) => {
     next();
 };
 
+export const validate = {
+    body,
+    query
+};
