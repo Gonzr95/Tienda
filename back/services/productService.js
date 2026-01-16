@@ -76,7 +76,6 @@ export async function createFolder(productData) {
 
 };
 
-
 export async function saveImages(files, targetFolder) {
 
     //GUARDADO DE IMÁGENES en array para el campo de path en la base de datos

@@ -1,9 +1,9 @@
 import { checkBrandExistenceByName } from '../services/brandService.js';
-import { checkProductExistenceByName, checkImages, 
-         createFolder, saveImages } from '../services/productService.js';
+import { checkProductExistenceByName, checkImages, createFolder, saveImages } from '../services/productService.js';
 import { Product } from '../models/product.js';
 import { Brand } from '../models/brand.js';
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
+import { parse } from 'path';
 
 
 /*
@@ -76,6 +76,7 @@ export async function getProducts(req, res) {
         } = req.query;
         page = parseInt(page); //corregir para double
         limit = parseInt(limit);//corregir para double
+        brand = parseInt(brand);
 
         
 
@@ -99,7 +100,9 @@ export async function getProducts(req, res) {
         
         // Usamos 'iLike' de Postgres si quieres búsqueda insensible a mayúsculas, 
         // o coincidencia exacta si prefieres. Aquí uso exacta para seguir tu ejemplo:
-        if (brand) whereCondition.brand = brand;
+        //if (brand) whereCondition.brand = brand;
+        if ( brand ) { whereCondition.brandId = brand; }
+
         if (name) whereCondition.name = name;
         
         // Lógica para Rango de Precios (usando Operadores de Sequelize)
@@ -112,14 +115,14 @@ export async function getProducts(req, res) {
         }
 
         console.log('Where Condition:', whereCondition);
-        console.log(typeof whereCondition.isActive);
+        //console.log(typeof whereCondition.isActive);
         // 4. CONSULTA A LA BASE DE DATOS
         const { count, rows: products } = await Product.findAndCountAll({
             where: whereCondition,
             include: [{
                 model: Brand,
                 as: "brand",
-                attributes: ['name'] //traeme el nombre
+                attributes: ['name'], //traeme el nombre
             }],
             limit: limit,
             offset: offset,
