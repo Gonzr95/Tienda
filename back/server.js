@@ -14,7 +14,10 @@ import { router as usersRouter } from './routes/users.js';
 
 connectDB();
 setupAssociations();
-
+app.use('/public', express.static('public'));
+//app.use('/uploads', express.static('uploads'));
+app.set('view engine', 'ejs');
+app.set('views', './views');
 
 app.use(cors({
     origin: [
