@@ -6,4 +6,9 @@ router.get('/backoffice', (req, res) => {
 });
 
 
+router.post('/backoffice/login', (req, res) => {
+    //res.render('../views/login');
+});
+
+
 export { router };
