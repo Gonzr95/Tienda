@@ -83,7 +83,7 @@ document.getElementById('quick-access-btn').addEventListener('click', () => {
 document.getElementById('admin-btn').addEventListener('click', async() => {
     //const response = await fetch(`${devBackendURL}/api/backoffice`); 
     /*Fetch es para pedir datos "en segundo plano" (AJAX). Cuando haces un fetch, el navegador recibe el HTML y se lo entrega a tu variable response en JavaScript, pero no navega ni renderiza nada automáticamente. El navegador se queda esperando que tú hagas algo con ese texto (como inyectarlo en un div).*/
-    window.open(`${devBackendURL}/api/backoffice`, '_blank');
+    window.open(`${devBackendURL}/backoffice`, '_blank');
 });
 
 // ************ ADMINISTRADOR ************ //

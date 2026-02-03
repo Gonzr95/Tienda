@@ -17,7 +17,12 @@ import { router as backofficeRouter } from './routes/backoffice.js';
 
 connectDB();
 setupAssociations();
-app.use('/public', express.static('public'));
+// --- CONFIGURACIÓN PARA ESM ---
+// Convertimos la URL del módulo actual en una ruta de carpeta
+const __filename = fileURLToPath(import.meta.url);
+const _dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(_dirname, 'public')));
 
 //app.use('/uploads', express.static('uploads'));
 app.use(express.json());
