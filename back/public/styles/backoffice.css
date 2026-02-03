@@ -74,7 +74,8 @@ main {
 }
 
 /* 5. Inputs */
-input[type="text"] {
+input[type="mail"],
+input[type="password"] {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #e2e8f0;
@@ -85,14 +86,16 @@ input[type="text"] {
     background-color: #f8fafc;
 }
 
-input[type="text"]:focus {
+
+
+input[type="password"]:focus {
     border-color: #3b82f6; /* Color azul al escribir */
     background-color: #fff;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 /* 6. Mensajes de Error */
-#name-input-error, #lastName-input-error {
+#mail-input-error, #password-input-error {
     color: #ef4444; /* Rojo suave */
     font-size: 0.75rem;
     text-align: left;
