@@ -3,6 +3,7 @@ const app = express();
 app.disable('X-Powered-by');
 const port = process.env.PORT || 3000;
 import path from 'path';
+import { fileURLToPath } from 'url';
 import cors from 'cors';
 
 import { connectDB } from "./db/sequelize.js";
@@ -11,13 +12,18 @@ import { setupAssociations } from './models/associations.js';
 import { router as brandsRouter } from './routes/brands.js';
 import { router as productsRouter } from './routes/products.js';
 import { router as usersRouter } from './routes/users.js';
+import { router as backofficeRouter } from './routes/backoffice.js';
 
 connectDB();
 setupAssociations();
-app.use('/public', express.static('public'));
+// --- CONFIGURACIÓN PARA ESM ---
+// Convertimos la URL del módulo actual en una ruta de carpeta
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/uploads', express.static('uploads'));
-app.set('view engine', 'ejs');
-app.set('views', './views');
+app.use(express.json());
+
 
 app.use(cors({
     origin: [
@@ -29,12 +35,13 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE"]
     //credentials: true,
 }));
-app.use(express.json());
-
+app.set('view engine', 'ejs');
+app.set('views', './views');
 //app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies
 app.use('/api', brandsRouter);
 app.use('/api', productsRouter);
 app.use('/api', usersRouter);
+app.use('/api', backofficeRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
