@@ -44,7 +44,7 @@ export async function loginAdminSSR(req, res) {
       role: admin.role
     };
 
-    res.redirect('/api/backoffice/home');
+    res.redirect('/backoffice/home');
 
   } catch (error) {
     return res.status(401).render('backoffice', {

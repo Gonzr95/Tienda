@@ -61,12 +61,11 @@ app.use(cors({
 }));
 app.set('view engine', 'ejs');
 app.set('views', './views');
-//app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies
 app.use('/api', brandsRouter);
 app.use('/api', productsRouter);
 app.use('/api', usersRouter);
-app.use('/api', backofficeRouter);
 app.use('/api', administratorRouter);
+app.use('/', backofficeRouter);
 
 
 app.listen(port, () => {

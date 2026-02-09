@@ -4,12 +4,7 @@ const router = Router();
 
 router.get('/backoffice', (req, res) => {
     const dashboardData = {
-        usuario: 'Administrador',
-        stats: {
-            ventas: 150,
-            usuariosNuevos: 45
-        },
-        fecha: new Date().toLocaleDateString()
+        dataToShow: "¡Bienvenido al Backoffice! Aquí puedes gestionar tu tienda."
     };
 
     // 'backoffice' nombrede archivo ejs

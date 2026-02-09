@@ -16,6 +16,14 @@ router.delete('/logout', authenticate, logout, (req, res) => {
     res.json({ message: "Logout successful" });
 });*/
 
+
+
+
+
+
+
+
+
 // Ruta PROTEGIDA: Perfil
 router.get('/me', authenticate, (req, res) => {
     // req.user viene del middleware authenticate
