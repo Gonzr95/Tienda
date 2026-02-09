@@ -17,36 +17,76 @@
     </header>
     <main>
         <section class="welcome-section">
-                <h2>¡Bienvenido!</h2>
+
+            <!--
+            
+                <form action="/administrator/login" method="POST" novalidate>
+    
                 <input
-                    type="mail"
-                    id="mail-input"
-                    class="user-input"
-                    placeholder="Uuario"
+                type="mail"
+                id="mail-input"
+                name="mail"
+                class="user-input"
+                placeholder="Usuario"
+                required
                 />
-                <p id="mail-input-error">
-
-                </p>
+                <p id="mail-input-error"></p>
 
                 <input
-                    type="password"
-                    id="password-input"
-                    class="user-inputs"
-                    placeholder="Contraseña"
+                type="password"
+                id="password-input"
+                name="pass"
+                class="user-inputs"
+                placeholder="Contraseña"
+                required
                 />
-                <p id="password-input-error">
+                <p id="password-input-error"></p>
 
-                </p>
-                <button class="btn-ingresar" id="login-btn">
-                    Ingresar
+                <button 
+                type="submit"
+                class="btn-ingresar"
+                id="login-btn"
+                >
+                Ingresar
                 </button>
-                <button id="quick-access-btn">
-                    quick access
-                </button>
+
+            </form>
+-->
+
+
+                <form action="/api/administrator/login" method="POST" NOVALIDATE>
+                    <h2>¡Bienvenido!</h2>
+                    <input
+                        type="email"
+                        id="mail-input"
+                        class="user-input"
+                        name="mail"
+                        placeholder="Usuario"
+                    />
+                    <p id="mail-input-error"></p>
+    
+                    <input
+                        type="password"
+                        id="password-input"
+                        class="user-inputs"
+                        name="pass"
+                        placeholder="Contraseña"
+                    />
+                    <p id="password-input-error"></p>
+
+                    <button type="submit" class="btn-ingresar" id="login-btn">
+                        Ingresar
+                    </button>
+
+                    <button type="button" id="quick-access-btn">
+                        quick access
+                    </button>
+                </form>
         </section>
 
     </main>
-    <script type="module" src="/public/scripts/backoffice.js"></script>
+    <!-- la carpeta public se sirve como si fuera la raiz del proyecto por eso cambia la forma de servirle la ruta al ejs-->
+    <script type="module" src="/scripts/backoffice.js"></script>
 </body>
 </body>
 </html>

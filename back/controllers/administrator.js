@@ -32,6 +32,27 @@ export async function loginAdmin(req, res) {
     }
 }
 
+export async function loginAdminSSR(req, res) {
+  try {
+    const admin = await adminService.loginAdmin(req.body);
+
+    req.session.admin = {
+      id: admin.id,
+      mail: admin.mail,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      role: admin.role
+    };
+
+    res.redirect('/api/backoffice/home');
+
+  } catch (error) {
+    return res.status(401).render('backoffice', {
+      error: 'Usuario o contraseña incorrectos'
+    });
+  }
+}
+
 export async function logout(req, res) {
     try {
         // Necesitamos el token puro. 

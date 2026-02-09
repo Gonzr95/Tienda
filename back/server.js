@@ -1,5 +1,25 @@
 import express from 'express';
+import session from 'express-session';
+
+
+
+
 const app = express();
+app.use(session({
+  name: 'admin.sid',
+  secret: 'super-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,      // 🔴 false en local
+    sameSite: 'lax'
+  }
+}));
+
+
+
+
 app.disable('X-Powered-by');
 const port = process.env.PORT || 3000;
 import path from 'path';
@@ -25,6 +45,7 @@ const _dirname = path.dirname(__filename);
 app.use(express.static(path.join(_dirname, 'public')));
 
 //app.use('/uploads', express.static('uploads'));
+app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies   
 app.use(express.json());
 
 
