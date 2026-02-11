@@ -16,3 +16,8 @@ PATH PARAMETER:
     Tambien le dice al router que lo que viene a continuacion es una variable
 QUERY PARAMS:
     el proposito es enviar strings para filtro, ordenamiento o paginar recursos
+
+Arquitectura para SSR 
+Para renderizar los productos y o marcas en el backoffice no voy a hacer EJS puro ya que simplemente no me gusta la sintaxis.
+paso a cargar las cosas mediante js
+
