@@ -1,0 +1,19 @@
+<header class="header">
+  <div>
+    <button id="toggleAside" class="hamburger">☰</button>
+
+  </div>
+
+  <h1>Backoffice</h1>
+
+  <div class="header-right user">
+    <% if (admin) { %>
+      <span><%= admin.firstName %></span>
+    <% } %>
+    <form action="/administrator/logout" method="POST">
+      <button>Cerrar sesión</button>
+    </form>
+  </div>
+</header>
+
+

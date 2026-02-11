@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>backoffice - Home</title>
+    <link rel="stylesheet" href="/styles/home.css">
+    <!--CONCEPTO NUEVO-->
+    <script defer src="/scripts/home.js"></script>
+    <title>Backoffice - Home</title>
 </head>
 <body>
-    <p>Bienvenido</p>
+    
+    <%- include('./partials/header') %>
+    
+    <div class="layout">
+    <%- include('partials/aside') %>
+
+    <main class="main">
+      <h2>Dashboard</h2>
+      <p>Contenido principal acá</p>
+    </main>
+  </div>
+    
 </body>
 </html>

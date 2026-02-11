@@ -45,6 +45,7 @@ export async function loginAdmin({ mail, pass }) {
     const token = generateToken({ id: admin.id, mail: admin.mail });
 
     // 4. Retornar info del usuario (sin pass) y el token
+
     const adminData = admin.toJSON();
     delete adminData.pass;
     delete adminData.createdAt;

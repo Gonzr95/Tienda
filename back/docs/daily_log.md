@@ -8,4 +8,4 @@
 - tech_descicions.md
 - glosary.md
 - common_errors.md
-
+- Se utiliza data en el EJS <%= %>

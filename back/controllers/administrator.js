@@ -37,13 +37,11 @@ export async function loginAdminSSR(req, res) {
     const admin = await adminService.loginAdmin(req.body);
 
     req.session.admin = {
-      id: admin.id,
-      mail: admin.mail,
-      firstName: admin.firstName,
-      lastName: admin.lastName,
-      role: admin.role
+      mail: admin.admin.mail,
+      firstName: admin.admin.firstName,
+      lastName: admin.admin.lastName,
+      //role: admin.role
     };
-
     res.redirect('/backoffice/home');
 
   } catch (error) {
