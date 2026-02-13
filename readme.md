@@ -43,5 +43,6 @@ Este es un proyecto que funciona como una tienda personal que permite al adminis
 - [X] Registro de Admin
 - [X] Login con autenticacion para Admin
 - [-] Backoffice
+- [X] UI para ABM de Marcas
 - [] UI para ABM de productos
 - [] UI para visualizacion de pedidos
