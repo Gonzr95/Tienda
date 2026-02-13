@@ -15,3 +15,7 @@
 # Arquitectura
 - cambiara la url al hacer el fetch a las marcas 
 - Con respecto al punto anterior aqui se rompe la arquitectura REST ya que no se cambia la URL y se convierte en un SPA
+
+# Marcas
+- Al eliminar una marca deberia mediante Logica de negocio restringir el borrado si esa marca tiene productos asignados.
+
