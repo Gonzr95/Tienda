@@ -136,7 +136,7 @@ export async function getProducts(req, res) {
 
         return res.status(200).json({
             status: 'success',
-            data: products, // Los productos encontrados
+            products: products, // Los productos encontrados
             pagination: {
                 totalItems: count,
                 totalPages: totalPages,
