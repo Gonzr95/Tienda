@@ -1,6 +1,6 @@
-import { clearMainContainer } from "../home.js";
-import { fetchBrands, renderBrandsSection} from "../controllers/brands.js"; 
+//import { clearMainContainer } from "../home.js";
 
+/*
 export function createPagination(pagination) {
   const container = document.createElement("div");
   container.classList.add("pagination");
@@ -24,7 +24,7 @@ export function createPagination(pagination) {
   }
 
   return container;
-}
+}*/
 
 export function createPaginationV2(pagination, onPageChange) {
   const container = document.createElement("div");

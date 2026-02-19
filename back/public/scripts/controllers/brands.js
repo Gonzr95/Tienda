@@ -1,8 +1,5 @@
-import { createPagination } from "../utils/pagination.js";
-import { clearMainContainer } from "../home.js";
-
-
-
+import { createPaginationV2 } from "../utils/pagination.js";
+import { clearMainContainer, setSectionTitle } from "../home.js";
 
 
 
@@ -54,14 +51,24 @@ function createBrandsTable(brands) {
 
   return table; 
 }
+/**
+ * 
+ * @returns it only returns div that contains the button to create a brand
+ */
+function createBrandsHeader() {
+  const container = document.createElement("div");
+  container.classList.add("brands-header");
+  setSectionTitle("Marcas", "section-title");
+  container.appendChild(createNewBrandButton());
 
-//falta hacer controller de deletBrand
+  return container;
+}
 function createBrandActions(brand) {
   const container = document.createElement("div");
 
   const editBtn = document.createElement("button");
   editBtn.textContent = "Edit";
-  editBtn.addEventListener("click", () => editBrand(brand));
+  editBtn.addEventListener("click", () => openBrandModal({ mode: "edit", brand }));
 
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
@@ -73,39 +80,8 @@ function createBrandActions(brand) {
   return container;
 }
 
-function editBrand(brand)
-{
-  openEditBrandModal(brand);
-}
 
-function openEditBrandModal(brand) {
-  const overlay = document.createElement("div");
-  overlay.classList.add("modal-overlay");
-
-  const modal = document.createElement("div");
-  modal.classList.add("modal");
-
-  modal.innerHTML = `
-    <h3>Editar Marca</h3>
-    <input type="text" id="brand-name-input" value="${brand.name}" />
-    <div class="modal-actions">
-      <button id="update-brand-btn">Actualizar</button>
-      <button id="cancel-brand-btn">Cancelar</button>
-    </div>
-  `;
-
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-
-  document
-    .getElementById("update-brand-btn")
-    .addEventListener("click", () => updateBrand(brand.id, overlay));
-
-  document
-    .getElementById("cancel-brand-btn")
-    .addEventListener("click", () => closeModal(overlay));
-}
-
+// ****** ABM de Marcas *******
 async function updateBrand(id, overlay) {
   const input = document.getElementById("brand-name-input");
   const name = input.value.trim();
@@ -148,7 +124,29 @@ async function updateBrand(id, overlay) {
 
   refreshBrands();
 }
+async function createBrand() {
+  const input = document.getElementById("brand-name-input");
+  const name = input.value.trim();
 
+  if (!name) {
+    alert("El nombre es obligatorio");
+    return;
+  }
+
+  await fetch("/api/brands", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name }),
+  });
+
+  // cerrar modal
+  //document.querySelector(".modal-overlay").remove();
+
+  // refrescar tabla
+  refreshBrands();
+}
 async function deleteBrand(brand) {
   const result = await Swal.fire({
     title: "¿Eliminar marca?",
@@ -185,6 +183,7 @@ async function deleteBrand(brand) {
   refreshBrands();
 }
 
+
 async function refreshBrands() {
   clearMainContainer();
 
@@ -194,63 +193,8 @@ async function refreshBrands() {
   renderBrandsSection(data, mainContainer);
 }
 
- //OK
-async function createBrand() {
-  const input = document.getElementById("brand-name-input");
-  const name = input.value.trim();
-
-  if (!name) {
-    alert("El nombre es obligatorio");
-    return;
-  }
-
-  await fetch("/api/brands", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name }),
-  });
-
-  // cerrar modal
-  document.querySelector(".modal-overlay").remove();
-
-  // refrescar tabla
-  refreshBrands();
-}
-
-//OK
 function closeModal(overlay) {
   overlay.remove();
-}
-
-//falta close modal
-function openCreateBrandModal() {
-  const overlay = document.createElement("div");
-  overlay.classList.add("modal-overlay");
-
-  const modal = document.createElement("div");
-  modal.classList.add("modal");
-
-  modal.innerHTML = `
-    <h3>Nueva Marca</h3>
-    <input type="text" id="brand-name-input" placeholder="Nombre de la marca" />
-    <div class="modal-actions">
-      <button id="save-brand-btn">Guardar</button>
-      <button id="cancel-brand-btn">Cancelar</button>
-    </div>
-  `;
-
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-
-  document
-    .getElementById("save-brand-btn")
-    .addEventListener("click", createBrand);
-
-  document
-    .getElementById("cancel-brand-btn")
-    .addEventListener("click", () => closeModal(overlay));
 }
 
 function createNewBrandButton() {
@@ -258,28 +202,103 @@ function createNewBrandButton() {
   btn.textContent = "Nueva Marca";
   btn.classList.add("btn-primary");
 
-  btn.addEventListener("click", openCreateBrandModal);
+  btn.addEventListener("click", () => openBrandModal({ mode: "create" }));
 
   return btn;
 }
 
-//OK
-function createBrandsHeader() {
-  const container = document.createElement("div");
-  container.classList.add("brands-header");
-  //const newBtn = createNewBrandButton();
-  container.appendChild(createNewBrandButton());
-
-  return container;
-}
 
 
-export function renderBrandsSection(data, container) {
-  const table = createBrandsTable(data.brands);
-  const pagination = createPagination(data.pagination);
+function renderBrandsSection(data, container) {
+  clearMainContainer();
   const header = createBrandsHeader();
+  const table = createBrandsTable(data.brands);
+  const pagination = createPaginationV2(data.pagination, async (page) => {
+      clearMainContainer();
+      const newData = await fetchBrands(page, data.pagination.itemsPerPage, "asc");
+      renderBrandsSection(newData, container);
+    });
 
   container.appendChild(header);
   container.appendChild(table);
   container.appendChild(pagination);
+}
+
+
+export async function handleBrandsClick() {
+  const data = fetchBrands(1, 10, "asc").then(data => {
+      const mainContainer = document.getElementById("main-container");
+      renderBrandsSection(data, mainContainer);
+    });
+}
+
+function openBrandModal({ mode, brand = null }) {
+
+  const isEdit = mode === "edit";
+
+  const modalHTML = `
+    <div class="modal fade" id="brandModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+
+          <div class="modal-header">
+            <h5 class="modal-title">
+              ${isEdit ? "Editar Marca" : "Nueva Marca"}
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <input 
+              type="text"
+              id="brand-name-input"
+              class="form-control"
+              placeholder="Nombre de la marca"
+              value="${isEdit && brand ? brand.name : ""}"
+            >
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancelar
+            </button>
+            <button class="btn btn-primary" id="save-brand-btn">
+              ${isEdit ? "Actualizar" : "Guardar"}
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+  const modalElement = document.getElementById("brandModal");
+  const modal = new bootstrap.Modal(modalElement);
+  modal.show();
+
+  document
+    .getElementById("save-brand-btn")
+    .addEventListener("click", async () => {
+
+      const name = document.getElementById("brand-name-input").value.trim();
+
+      if (!name) {
+        Swal.fire("Error", "El nombre es obligatorio", "error");
+        return;
+      }
+
+      if (isEdit) {
+        await updateBrand(brand.id, name);
+      } else {
+        await createBrand(name);
+      }
+
+      modal.hide();
+    });
+
+  modalElement.addEventListener("hidden.bs.modal", () => {
+    modalElement.remove();
+  });
 }

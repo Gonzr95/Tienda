@@ -19,6 +19,8 @@
 # Marcas
 - Al eliminar una marca deberia mediante Logica de negocio restringir el borrado si esa marca tiene productows asignados.
 - utilizar PaginationV2 
+- se creo openbrand modal para reutilizar con bootstrap el edit y create de brands
+
 
 # Productos
 - Crear filtro en el router para traer los productos de ciertas paginas (filtering) o mas bien revisar funcionamient

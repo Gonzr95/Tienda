@@ -1,4 +1,4 @@
-import { createPagination, createPaginationV2 } from "../utils/pagination.js";
+import { createPaginationV2 } from "../utils/pagination.js";
 import { clearMainContainer, setSectionTitle } from "../home.js";
 
 
@@ -368,6 +368,9 @@ export function renderProductsSection(data, container) {
   container.appendChild(table);
   container.appendChild(pagination);
 }
+
+
+
 
 export async function handleProductosClick() {
   clearMainContainer();

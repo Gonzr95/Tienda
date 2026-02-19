@@ -1,5 +1,5 @@
 // traer los controllers de brands
-import { renderBrandsSection, fetchBrands } from "./controllers/brands.js";
+import { handleBrandsClick } from "./controllers/brands.js";
 import { handleProductosClick } from "./controllers/products.js";
 
 const homeBtn = document.getElementById("home-btn");
@@ -29,18 +29,7 @@ export function clearMainContainer() {
 }
 
 /* ***** Manejadores de eventos *******/
-marcasBtn.addEventListener("click", () => {
-  //cambiar el titulo de la seccion a Marcas
-  setSectionTitle("Marcas", "section-title");
-  //borrar contenido del main-container
-  clearMainContainer();
-
-  const data = fetchBrands(1, 10, "asc").then(data => {
-    renderBrandsSection(data, mainContainer);
-  });
-});
-
-
+marcasBtn.addEventListener("click", handleBrandsClick);
 productosBtn.addEventListener("click", handleProductosClick);
 
 

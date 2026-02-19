@@ -12,3 +12,11 @@
 - Bootstrap styled
 - Mantener estado global
 - Soportar filtros dinámicos
+
+# Entidades
+- crear un modal generico para todas las entidades ABM
+openEntityModal({
+  title,
+  fields,
+  onSubmit
+})
