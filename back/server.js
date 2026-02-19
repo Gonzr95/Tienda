@@ -43,7 +43,7 @@ const __filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(_dirname, 'public')));
-
+app.use('/uploads', express.static(path.join(_dirname, 'uploads')));
 //app.use('/uploads', express.static('uploads'));
 app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies   
 app.use(express.json());

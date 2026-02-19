@@ -14,3 +14,6 @@
 - Se comienza a realizar la UI del dashboard
 - Se comienza con la ui y logica de "marcas"
 - se decide y comienza a trabajar con el js encargado de hacer fetch a las marcas y renderizar la tabla, botones de accion, y paginacion.
+
+
+

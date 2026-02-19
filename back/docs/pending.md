@@ -9,7 +9,7 @@
 - mejorar ui del dashboard
     - hamburguer y aside por encima del header
  - Brands refactor de divs (main)
- - modificar el header de brands que en realidad es solo un button y el title
+ - modificar el header de brands que en realidad es solo un button y el titlew
 
 
 # Arquitectura
@@ -18,6 +18,7 @@
 
 # Marcas
 - Al eliminar una marca deberia mediante Logica de negocio restringir el borrado si esa marca tiene productows asignados.
+- utilizar PaginationV2 
 
 # Productos
 - Crear filtro en el router para traer los productos de ciertas paginas (filtering) o mas bien revisar funcionamient

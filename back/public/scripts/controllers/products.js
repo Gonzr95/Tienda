@@ -1,4 +1,4 @@
-import { createPagination } from "../utils/pagination.js";
+import { createPagination, createPaginationV2 } from "../utils/pagination.js";
 import { clearMainContainer, setSectionTitle } from "../home.js";
 
 
@@ -9,8 +9,6 @@ export async function fetchProducts(page, limit, sortBy, sortOrder = "asc") {
   const response = await fetch(
   `/api/products?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder || "asc"}`
   );
-  console.log
-
   return await response.json();
 }
 
@@ -18,47 +16,84 @@ function createProductosTable(products) {
   const wrapper = document.createElement("div");
   wrapper.className = "table-responsive";
   const table = document.createElement("table");
-  table.className = "table table-dark table-hover align-middle";
+  table.className = "table table-hover align-middle";
 
   table.innerHTML = `
     <thead>
       <tr>
         <th>ID</th>
-        <th>Nombre</th>
+        <th>Imagen</th>
+        <th>Producto</th>
+        <th>Marca</th>
+        <th>Linea</th>
+        <th>Descripcion</th>
+        <th>Activo</th>
         <th>Precio</th>
         <th>Stock</th>
-        <th>Categoría</th>
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
-      ${products.map(product => `
-        <tr>
-          <td>${product.id}</td>
-          <td>${product.name}</td>
-          <td>$${product.price}</td>
-          <td>${product.stock}</td>
-          <td>${product.category || 'Sin categoría'}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-info me-2"
-              onclick="viewProduct(${product.id})">
-              <i class="bi bi-eye"></i>
-            </button>
+<tbody>
+  ${products.map(product => {
 
-            <button class="btn btn-sm btn-outline-warning me-2"
-              onclick="editProduct(${product.id})">
-              <i class="bi bi-pencil"></i>
-            </button>
+    const imageUrl = product.images && product.images.length > 0
+      ? `/${product.images[0]}`
+      : '/img/no-image.png'; // opcional imagen fallback
 
-            <button class="btn btn-sm btn-outline-danger"
-              onclick="deleteProduct(${product.id})">
-              <i class="bi bi-trash"></i>
-            </button>
-          </td>
-        </tr>
-      `).join("")}
-    </tbody>
-  `;
+    return `
+      <tr>
+        <td>${product.id}</td>
+
+        <td>
+          <img 
+            src="${imageUrl}" 
+            alt="${product.name}"
+            style="max-height:80px; width:auto; object-fit:contain;"
+            class="img-fluid rounded"
+          >
+        </td>
+
+        <td>${product.name}</td>
+
+        <td>${product.brand?.name || 'Sin marca'}</td>
+
+        <td>${product.lineUp || '-'}</td>
+
+        <td>${product.description || '-'}</td>
+
+        <td>
+          ${
+            product.isActive
+              ? '<span class="badge bg-success">Activo</span>'
+              : '<span class="badge bg-danger">Inactivo</span>'
+          }
+        </td>
+
+        <td>$${Number(product.price).toLocaleString()}</td>
+
+        <td>${product.stock}</td>
+
+        <td>
+          <button class="btn btn-sm btn-outline-info me-2"
+            onclick="viewProduct(${product.id})">
+            <i class="bi bi-eye"></i>
+          </button>
+
+          <button class="btn btn-sm btn-outline-warning me-2"
+            onclick="editProduct(${product.id})">
+            <i class="bi bi-pencil"></i>
+          </button>
+
+          <button class="btn btn-sm btn-outline-danger"
+            onclick="deleteProduct(${product.id})">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("")}
+</tbody>
+`;
 
   wrapper.appendChild(table);
 
@@ -321,7 +356,13 @@ const div = document.createElement("div");
 export function renderProductsSection(data, container) {
   const header = createProductsHeader();
   const table = createProductosTable(data.products);
-  const pagination = createPagination(data.pagination);
+  const pagination = createPaginationV2(
+    data.pagination, (page) => {
+      fetchProducts(page, 10, "name", "asc").then(newData => {
+        clearMainContainer();
+        renderProductsSection(newData, container);
+      });
+    });
 
   container.appendChild(header);
   container.appendChild(table);

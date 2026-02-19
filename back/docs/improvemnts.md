@@ -6,3 +6,9 @@
 - Pasarela de pago.
 - Implementar MP
 
+# Pagination
+- Agregar "Previous" y "Next"
+- Mostrar solo 5 páginas alrededor
+- Bootstrap styled
+- Mantener estado global
+- Soportar filtros dinámicos
