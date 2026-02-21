@@ -20,3 +20,6 @@ openEntityModal({
   fields,
   onSubmit
 })
+
+# Productoos
+- Si la marca no esta disponible en el alta de producto habilitar opcion para darla de alta desde ese mismo menu

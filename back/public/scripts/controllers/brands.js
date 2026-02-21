@@ -3,10 +3,23 @@ import { clearMainContainer, setSectionTitle } from "../home.js";
 
 
 
-export async function fetchBrands(page, limit, sort) {
-  const response = await fetch(
-    `/api/brands?page=${page}&limit=${limit}&sort=${sort}`
-  );
+export async function fetchBrands({ page = 1, limit = 10, sort = "ASC" } = {}) {
+
+  const params = new URLSearchParams();
+
+  // Solo agregamos page si no es "all"
+  if (limit !== "all") {
+    params.append("page", page);
+  }
+
+  params.append("limit", limit);
+  params.append("sort", sort);
+
+  const response = await fetch(`/api/brands?${params.toString()}`);
+  console.log("fetch uurl:", `/api/brands?${params.toString()}`);
+  if (!response.ok) {
+    throw new Error("Error al obtener las marcas");
+  }
 
   return await response.json();
 }
@@ -112,7 +125,6 @@ async function updateBrand(id, overlay) {
     return;
   }
 
-  closeModal(overlay);
 
   Swal.fire({
     icon: "success",
@@ -141,10 +153,13 @@ async function createBrand() {
     body: JSON.stringify({ name }),
   });
 
-  // cerrar modal
-  //document.querySelector(".modal-overlay").remove();
-
-  // refrescar tabla
+  Swal.fire({
+    icon: "success",
+    title: "Creado",
+    text: "La marca fue creada correctamente",
+    timer: 1500,
+    showConfirmButton: false,
+  });
   refreshBrands();
 }
 async function deleteBrand(brand) {
@@ -192,11 +207,6 @@ async function refreshBrands() {
   const mainContainer = document.getElementById("main-container");
   renderBrandsSection(data, mainContainer);
 }
-
-function closeModal(overlay) {
-  overlay.remove();
-}
-
 function createNewBrandButton() {
   const btn = document.createElement("button");
   btn.textContent = "Nueva Marca";
@@ -206,18 +216,25 @@ function createNewBrandButton() {
 
   return btn;
 }
-
-
-
 function renderBrandsSection(data, container) {
   clearMainContainer();
+
   const header = createBrandsHeader();
   const table = createBrandsTable(data.brands);
-  const pagination = createPaginationV2(data.pagination, async (page) => {
-      clearMainContainer();
-      const newData = await fetchBrands(page, data.pagination.itemsPerPage, "asc");
+
+  const pagination = createPaginationV2(
+    data.pagination,
+    async (page) => {
+
+      const newData = await fetchBrands({
+        page,
+        limit: data.pagination.itemsPerPage,
+        sort: "ASC"
+      });
+
       renderBrandsSection(newData, container);
-    });
+    }
+  );
 
   container.appendChild(header);
   container.appendChild(table);
@@ -231,7 +248,6 @@ export async function handleBrandsClick() {
       renderBrandsSection(data, mainContainer);
     });
 }
-
 function openBrandModal({ mode, brand = null }) {
 
   const isEdit = mode === "edit";

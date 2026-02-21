@@ -29,10 +29,10 @@ export const getBrandsQuerySchema = z.object({
     .default(1),
 
     limit: z
-    .coerce
-    .number()
-    .min(1)
-    .max(100)
+    .union([
+      z.coerce.number().min(1).max(100),
+      z.literal('all')
+    ])
     .default(10),
 
     sort: z

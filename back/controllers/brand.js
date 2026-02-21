@@ -114,30 +114,49 @@ export async function deleteBrand(req, res) {
 
 export async function getBrands(req, res) {
     try {
-        // recibir parametros y sino este es el default
         let {
             page = 1,
             limit = 10,
             sort = 'ASC'
         } = req.query;
-        page = parseInt(page);
-        limit = parseInt(limit); //VALIDACIONES?
 
-        const offset = (page - 1) * limit;
         const orderDirection = sort.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
 
+        // 🔵 CASO 1: Traer todas las marcas
+        if (limit === 'all') {
+
+            const brands = await Brand.findAll({
+                order: [['name', orderDirection]]
+            });
+
+            return res.status(200).json({
+                brands: brands,
+                pagination: {
+                    totalItems: brands.length,
+                    totalPages: 1,
+                    currentPage: 1,
+                    itemsPerPage: brands.length
+                }
+            });
+        }
+
+        // 🔵 CASO 2: Paginación normal
+
+        page = parseInt(page);
+        limit = parseInt(limit);
+
+        const offset = (page - 1) * limit;
+
         const { count, rows: brands } = await Brand.findAndCountAll({
-            order: [['name', orderDirection]], //ordeno por nombre y criterio de orden
+            order: [['name', orderDirection]],
             limit: limit,
             offset: offset
         });
 
-        // 6. Preparar respuesta con metadata para el front
         const totalPages = Math.ceil(count / limit);
+
         return res.status(200).json({
-            // Datos crudos
             brands: brands,
-            // Metadata de paginación (Vital para que el front dibuje los botones de < 1 2 3 >)
             pagination: {
                 totalItems: count,
                 totalPages: totalPages,
@@ -145,7 +164,6 @@ export async function getBrands(req, res) {
                 itemsPerPage: limit
             }
         });
-
 
     }
     catch (error) {

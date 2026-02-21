@@ -7,9 +7,8 @@
 
  # UI backoffice
 - mejorar ui del dashboard
-    - hamburguer y aside por encima del header
- - Brands refactor de divs (main)
- - modificar el header de brands que en realidad es solo un button y el titlew
+- hamburguer y aside por encima del header
+- modificar el header de brands que en realidad es solo un button y el titlew
 
 
 # Arquitectura
@@ -18,10 +17,17 @@
 
 # Marcas
 - Al eliminar una marca deberia mediante Logica de negocio restringir el borrado si esa marca tiene productows asignados.
-- utilizar PaginationV2 
-- se creo openbrand modal para reutilizar con bootstrap el edit y create de brands
-
 
 # Productos
 - Crear filtro en el router para traer los productos de ciertas paginas (filtering) o mas bien revisar funcionamient
 
+- tipo de producto (jabon, detergente)
+- dropdown con el listado de las marcas disponibles (al ir escribiendo se deberia acotar la lista hasta encontrar la marca que estamos buscando.) Es decir debemos hacer un get Brands.
+- Linea: 
+- Descripcion
+- Precio
+- Esta Activo?
+- Selector de imagenes. Se pueden meter hasta 4 imagenes, se puede elegir cual es la principal. Sera la que va en la posicion 0 del array. En la base de datos se guarda un string con la direccion a las imagenes que se cargaron.
+- Si el backend responde con un error se debe disparar un swal fire de error.
+
+Reuitilizar y desacoplar codigo, separar responsabilidades.

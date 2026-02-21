@@ -5,3 +5,4 @@ show tables;
 select * from brands;
 select * from products;
 
+
