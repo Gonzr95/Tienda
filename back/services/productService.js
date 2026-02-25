@@ -90,3 +90,77 @@ export async function saveImages(files, targetFolder) {
     // Ahora 'imagePaths' contiene el array limpio de rutas guardadas en el disco.
     return imagePaths;
 };
+
+export async function checkProductsStock(products){
+
+}
+
+export const validateProductsAndStock = async (products) => {
+
+    // 1️⃣ Validar estructura básica de cada item
+    for (const item of products) {
+
+        if (!item.productId || !item.quantity) {
+            const error = new Error("Each product must have productId and quantity");
+            error.name = "ValidationError";
+            throw error;
+        }
+
+        if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+            const error = new Error("Quantity must be a positive integer");
+            error.name = "ValidationError";
+            throw error;
+        }
+    }
+
+    // 2️⃣ Obtener todos los IDs
+    const productIds = products.map(p => p.productId);
+
+    // 3️⃣ Buscar productos en base
+    const dbProducts = await Product.findAll({
+        where: {
+            id: productIds
+        }
+    });
+
+    // 4️⃣ Verificar que existan todos
+    if (dbProducts.length !== productIds.length) {
+        const error = new Error("One or more products do not exist");
+        error.name = "ProductNotFoundError";
+        throw error;
+    }
+
+    // 5️⃣ Validar stock y construir resultado
+    const validatedProducts = [];
+
+    for (const dbProduct of dbProducts) {
+
+        const requestedProduct = products.find(p => p.productId === dbProduct.id);
+
+        if (dbProduct.stock < requestedProduct.quantity) {
+            const error = new Error(
+                `Insufficient stock for product ID ${dbProduct.id}`
+            );
+            error.name = "InsufficientStockError";
+            throw error;
+        }
+
+        validatedProducts.push({
+            id: dbProduct.id,
+            price: parseFloat(dbProduct.price),
+            quantity: requestedProduct.quantity
+        });
+    }
+
+    return validatedProducts;
+};
+
+export const decreaseStock = async (products) => {
+
+    for (const product of products) {
+        await Product.update(
+            { stock: Product.sequelize.literal(`stock - ${product.quantity}`) },
+            { where: { id: product.id } }
+        );
+    }
+};

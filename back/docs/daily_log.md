@@ -17,3 +17,6 @@
 
 
 
+# Miercoles 25/02
+- Se crea el enrutador de tickets
+- Se comienza con el modelo de ticket

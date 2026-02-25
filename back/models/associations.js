@@ -16,5 +16,11 @@ export const setupAssociations = () => {
         as: 'brand'            // Alias para acceder a la marca desde el producto
     });
 
+    
+
+
+
+
+
     console.log('--- Asociaciones de modelos configuradas correctamente ---');
 };

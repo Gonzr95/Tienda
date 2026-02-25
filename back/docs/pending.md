@@ -3,7 +3,7 @@
 - Separar mejor la logica referente a session y JWT
 
 # Login
-- Mejorar el proyecto de sign in y sign up de usuarios
+- Mejorar el proyecto de sign in y sign up de usuarios actualmente no hay registro
 
  # UI backoffice
 - mejorar ui del dashboard
@@ -30,4 +30,7 @@
 - Selector de imagenes. Se pueden meter hasta 4 imagenes, se puede elegir cual es la principal. Sera la que va en la posicion 0 del array. En la base de datos se guarda un string con la direccion a las imagenes que se cargaron.
 - Si el backend responde con un error se debe disparar un swal fire de error.
 
+# Usuarios y tickets 
+- Se necesitara crear el sistema de registro de usuarios con el guardado de su informacion para gestionar domicilio que el cliente mismo lo pueda modificar
+- ticket debera ser modificado para poder poner cliente id sin nulls
 Reuitilizar y desacoplar codigo, separar responsabilidades.
