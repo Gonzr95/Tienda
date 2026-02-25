@@ -36,8 +36,8 @@ import { router as backofficeRouter } from './routes/backoffice.js';
 import { router as administratorRouter } from './routes/administrator.js';
 import { router as ticketsRouter } from './routes/tickets.js';
 
-connectDB();
 setupAssociations();
+connectDB();
 // --- CONFIGURACIÓN PARA ESM ---
 // Convertimos la URL del módulo actual en una ruta de carpeta
 const __filename = fileURLToPath(import.meta.url);

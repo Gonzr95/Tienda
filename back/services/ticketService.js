@@ -1,4 +1,4 @@
-import { Ticket } from "../models/Ticket.js";
+import { Ticket } from "../models/ticket.js";
 import * as productService from "./productService.js";
 
 // valida stock

@@ -293,11 +293,29 @@ async function finishPurchase() {
         alert("Faltan datos para procesar la compra");
         return;
     }
+    const cartData = JSON.parse(cartRaw);
+// 2️⃣ Formatear según lo que espera el backend
+    const orderData = {
+        products: cartData.map(item => ({
+            productId: Number(item.id),
+            quantity: Number(item.quantity),
+            price: Number(item.product.price),
+                name: item.product.name,
+                brand: item.product.brand,
+                lineUp: item.product.lineUp
 
+
+        })),
+        customerData: JSON.parse(customerRaw)
+    };
+    /*
     const orderData = {
         customerData: JSON.parse(customerRaw),
         cart: JSON.parse(cartRaw),
     };
+    */
+
+
 
     console.log("Datos de la orden a enviar al backend:", orderData);
 
@@ -322,9 +340,11 @@ async function finishPurchase() {
         // 3. SOLO SI TODO SALIÓ BIEN: Limpiar y Redirigir
         console.log('Orden generada:', result);
         const { ticketId } = result;
+
+
+
         sendWhatsapp(orderData);
         await downloadTicketPDF(ticketId);
-
         
         // 4. CONFIRMACIÓN DE ÉXITO (SweetAlert)
         // Cerramos el loader anterior y mostramos el éxito
@@ -402,12 +422,12 @@ function sendWhatsapp(ticketInfo){
 
     // 2. Detalle de productos y cálculo del total
     let total = 0;
-    ticketInfo.cart.forEach(item => {
-        const subtotal = item.quantity * item.product.price;
+    ticketInfo.products.forEach(item => {
+        const subtotal = item.quantity * item.price;
         total += subtotal;
         
         // Formato: - Marca LineUp - Cantidad unidades
-        mensaje += `- ${item.product.brand} ${item.product.lineUp} - ${item.quantity} unidades\n`;
+        mensaje += `- ${item.brand.name} ${item.lineUp} - ${item.quantity} unidades\n`;
     });
 
     // 3. Total final
