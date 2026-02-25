@@ -34,6 +34,7 @@ import { router as productsRouter } from './routes/products.js';
 import { router as usersRouter } from './routes/users.js';
 import { router as backofficeRouter } from './routes/backoffice.js';
 import { router as administratorRouter } from './routes/administrator.js';
+import { router as ticketsRouter } from './routes/tickets.js';
 
 connectDB();
 setupAssociations();
@@ -65,7 +66,8 @@ app.use('/api', brandsRouter);
 app.use('/api', productsRouter);
 app.use('/api', usersRouter);
 app.use('/api', administratorRouter);
-app.use('/', backofficeRouter);
+app.use('/', backofficeRouter)
+app.use('/api', ticketsRouter);
 
 
 app.listen(port, () => {
