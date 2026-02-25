@@ -68,11 +68,86 @@ export async function createProduct(req, res) {
     }
 }
 
-export async function getProducts(req, res) {
+export async function updateProduct(req, res) {
+  try {
+    const { id } = req.params;
+
+    // 1️⃣ Verificar que el producto exista
+    const existingProduct = await Product.findByPk(id);
+
+    if (!existingProduct) {
+      return res.status(404).json({
+        message: "Product not found"
+      });
+    }
+
+    // 2️⃣ Verificar que la marca exista
+    const existingBrand = await checkBrandExistenceByName(
+      req.body.brandName
+    );
+
+    if (!existingBrand) {
+      return res.status(404).json({
+        message: "Brand not found"
+      });
+    }
+
+    const {
+      name,
+      lineUp,
+      description,
+      price,
+      stock,
+      isActive
+    } = req.body;
+
+    const files = req.files;
+
+    let imagePaths = existingProduct.images; // mantener imágenes actuales por defecto
+    let targetFolder = existingProduct.productFolder;
+
+    // 3️⃣ Si vienen imágenes nuevas, validarlas y guardarlas
+    if (files && files.length > 0) {
+      await checkImages(files);
+
+      targetFolder = existingProduct.productFolder 
+        || await createFolder({ name, lineUp });
+
+      imagePaths = await saveImages(files, targetFolder);
+    }
+
+    // 4️⃣ Actualizar producto
+    await existingProduct.update({
+      name,
+      brandId: existingBrand.id,
+      lineUp,
+      description,
+      price,
+      stock,
+      isActive,
+      images: imagePaths,
+      productFolder: targetFolder
+    });
+
+    return res.status(200).json({
+      message: "Product updated successfully",
+      product: existingProduct
+    });
+
+  } catch (error) {
+    console.error("Error updating product:", error);
+
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message
+    });
+  }
+}
+export async function   getProducts(req, res) {
     try{
         let {
             page = 1, limit = 10, sortBy = 'id', sortOrder = 'ASC',
-            name, id, isActive, brand, minPrice, maxPrice
+            name, id, isActive, brand, minPrice, maxPrice, category
         } = req.query;
         page = parseInt(page); //corregir para double
         limit = parseInt(limit);//corregir para double
@@ -104,6 +179,8 @@ export async function getProducts(req, res) {
         if ( brand ) { whereCondition.brandId = brand; }
 
         if (name) whereCondition.name = name;
+
+        if (category) whereCondition.name = category; // Asumiendo que "category" se refiere al nombre del producto. Ajusta según tu modelo si es necesario.
         
         // Lógica para Rango de Precios (usando Operadores de Sequelize)
         if (minPrice || maxPrice) {
@@ -174,3 +251,31 @@ export async function getProducts(req, res) {
 
 }
 
+export const getCategories = async (req, res) => {
+  try {
+    // Buscamos solo la columna productType y agrupamos para que no se repitan
+    const categoriesData = await Product.findAll({
+      attributes: ["name"],
+      group: ["name"],
+      // Opcional: Solo traer categorías de productos activos
+      where: {
+        isActive: true,
+        //stock : { gt: 0 }
+      },
+      order: [["name", "ASC"]] // Orden alfabético
+    });
+
+    // categoriesData será algo como: 
+    // [ { name: "Farol" }, { name: "Plafon" } ]
+    
+    // Lo transformamos a un array simple de strings para el frontend:
+    // [ "Farol", "Plafon" ]
+    const categories = categoriesData.map(item => item.name);
+
+    return res.status(200).json(categories);
+
+  } catch (error) {
+    console.error("Error al obtener categorías:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
