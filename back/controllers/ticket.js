@@ -139,15 +139,15 @@ export async function generateTicketPDF(req, res) {
             // o simplemente 'ProductTicket'. 
             console.log("esto es el foreach de product: ", product);
             const quantity = product.Product_Ticket.quantity; 
-            const price = product.Product_Ticket.price; 
-            const subtotal = quantity * price;
-            const productName = `${product.brand} ${product.lineUp}`;
+            const price = Number(product.Product_Ticket.price); 
+            const subtotal = quantity * Number(price);
+            const productName = `${product.brand?.name || 'Sin marca'} ${product.lineUp}`;
 
             // Imprimir fila
             doc.text(productName, 50, positionY, { width: 240 });
             doc.text(quantity.toString(), 300, positionY);
-            doc.text(`$${price}`, 370, positionY);
-            doc.text(`$${subtotal}`, 470, positionY);
+            doc.text(`$${price.toFixed(2)}`, 370, positionY);
+            doc.text(`$${subtotal.toFixed(2)}`, 470, positionY);
             
             positionY += 20; // Bajar 20px para la siguiente fila
         });

@@ -233,10 +233,10 @@ function createProductCard(product) {
         };
         //hace falta 1)nombre, 2)precio, 3)url imagen, 4)descripcion
         MyCart.addProduct(product.id, quantityToAdd, productData);
+        //console.log('Producto agregado al carrito:', product);
+        MyCart.notifyAddedProd(`${product.name} ${product.brand.name} ${product.lineUp}`);
 
-        MyCart.notifyAddedProd(`${product.brand} ${product.lineUp}`);
-
-        console.log(`Agregando ${quantityToAdd} unidad(es) de ${product.name} al carrito.`);
+        //console.log(`Agregando ${quantityToAdd} unidad(es) de ${product.name} al carrito.`);
         qtyInput.value = 1;
         
     });
