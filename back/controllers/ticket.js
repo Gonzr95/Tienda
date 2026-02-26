@@ -10,7 +10,8 @@ import PDFDOcument from "pdfkit";
 export const createTicket = async (req, res) => {
     try {
 
-        const { products } = req.body;
+        const { products, customerData } = req.body;
+
 
         if (!products) {
             return res.status(400).json({
@@ -23,9 +24,10 @@ export const createTicket = async (req, res) => {
                 message: "Products must be a non-empty array"
             });
         }
-
         //logica de creacion de ticket segun mi negocio
-        const ticket = await ticketService.createTicket(products);
+        const ticket = await ticketService.createTicket(products, customerData);
+        
+
         return res.status(201).json({
             message: "Ticket creado correctamente",
             ticketId: ticket.dataValues.id,
@@ -73,7 +75,7 @@ export async function generateTicketPDF(req, res) {
             include: [
                 {
                     model: Product,
-                    attributes: ['id', 'lineUp', 'price'], 
+                    attributes: ['id', 'name', 'lineUp', 'price'], 
                     // IMPORTANTE: Aquí referenciamos el modelo intermedio tal cual lo importaste
                     through: {
                         model: Product_Ticket,
@@ -85,17 +87,9 @@ export async function generateTicketPDF(req, res) {
                         as: 'brand',
                         attributes: ['name']
                     }]
-                },
-                
-                {
-                    model: User,
-                    as: 'client', // Asegúrate de que este alias coincida con el que usaste en tu asociación
-                    attributes: ['firstName', 'lastName']
-
                 }
             ]
         });
-        console.log("Ticket encontrado:", ticket);
         if( !ticket ) {
             return res.status(404).json({ message: "Ticket no encontrado" });
         }
@@ -118,7 +112,7 @@ export async function generateTicketPDF(req, res) {
         doc.moveDown();
 
         // Datos del Cliente
-        doc.text(`Cliente: ${ticket.client.customerName} ${ticket.client.customerLastName}`); // Usando tus nombres de columna
+        doc.text(`Cliente: ${ticket.customerName} ${ticket.customerLastName}`); // Usando tus nombres de columna
         doc.moveDown();
 
         // Línea separadora
@@ -143,7 +137,7 @@ export async function generateTicketPDF(req, res) {
             // En Sequelize, los datos de la tabla intermedia (ProductTicket)
             // se guardan usualmente en una propiedad llamada igual que la tabla,
             // o simplemente 'ProductTicket'. 
-            
+            console.log("esto es el foreach de product: ", product);
             const quantity = product.Product_Ticket.quantity; 
             const price = product.Product_Ticket.price; 
             const subtotal = quantity * price;

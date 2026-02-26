@@ -36,7 +36,7 @@ export const setupAssociations = () => {
 
     // 1️⃣ Un Cliente tiene muchos Tickets
     User.hasMany(Ticket, {
-        foreignKey: 'clienteId',   // Columna en la tabla Ticket
+        foreignKey: 'clientId',   // Columna en la tabla Ticket
         as: 'tickets',             // Alias para eager loading
         onDelete: 'RESTRICT',      // Evita borrar el cliente si tiene tickets
         onUpdate: 'CASCADE'        // Si cambia el ID del cliente, se actualiza en tickets
@@ -44,7 +44,7 @@ export const setupAssociations = () => {
 
     // 2️⃣ Un Ticket pertenece a un Cliente
     Ticket.belongsTo(User, {
-        foreignKey: 'clienteId',
+        foreignKey: 'clientId',
         as: 'client'
     });
 

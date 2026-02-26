@@ -29,12 +29,12 @@ export const Product_Ticket = sequelize.define('Product_Ticket', {
         comment: 'Cantidad de este producto en el ticket',
     },
     price: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.DECIMAL(10,2),
         allowNull: false,
         comment: 'Precio unitario del producto al momento de la venta',
     },
     subtotal: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.DECIMAL(10,2),
         allowNull: false,
         comment: 'Cálculo de quantity * price',
     }

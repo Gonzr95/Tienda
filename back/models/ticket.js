@@ -7,6 +7,15 @@ export const Ticket = sequelize.define("Ticket", {
         autoIncrement: true,
         primaryKey: true
     },
+    customerName: {
+        type: DataTypes.STRING(32),
+        allowNull: false,
+    },
+
+    customerLastName: {
+        type: DataTypes.STRING(32),
+        allowNull: false,
+    },
     clientId: {
         type: DataTypes.INTEGER,
         allowNull: true, //despues te cambiamos

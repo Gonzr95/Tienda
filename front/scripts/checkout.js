@@ -300,22 +300,14 @@ async function finishPurchase() {
             productId: Number(item.id),
             quantity: Number(item.quantity),
             price: Number(item.product.price),
-                name: item.product.name,
-                brand: item.product.brand,
-                lineUp: item.product.lineUp
+            name: item.product.name,
+            brand: item.product.brand,
+            lineUp: item.product.lineUp
 
 
         })),
         customerData: JSON.parse(customerRaw)
-    };
-    /*
-    const orderData = {
-        customerData: JSON.parse(customerRaw),
-        cart: JSON.parse(cartRaw),
-    };
-    */
-
-
+        };
 
     console.log("Datos de la orden a enviar al backend:", orderData);
 
