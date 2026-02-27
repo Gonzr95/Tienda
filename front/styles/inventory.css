@@ -5,6 +5,7 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
     -webkit-tap-highlight-color: transparent; /* Elimina flash azul en móbiles */
+    max-width: 100%;
 }
 main{
     display: flex;
@@ -15,6 +16,11 @@ body {
     background-color: #f4f6f8;
     padding-bottom: 300px; /* Espacio para el footer fijo */
     padding-top: 50px;    /* Espacio para el header fijo */
+}
+
+html, body {
+    max-width: 100%; 
+    overflow-x: hidden; /*bloqueamos el desplazamiento horizontal*/
 }
 
 
@@ -60,8 +66,11 @@ body {
 
 /* Estilos de contenedor y botones de CATEGORIAS*/
 #categories-container {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 2px;
     width: 100%;
 }
 .category-btn {
@@ -70,10 +79,12 @@ body {
     padding: 8px 16px;
     border-radius: 50px;
     font-size: 0.85rem;
+    font-weight: 700;
     color: #475569;
-    white-space: nowrap;
     cursor: pointer;
     transition: all 0.2s;
+    max-width: 100%;
+    word-break: break-word;
 }
 .category-btn:hover, .category-btn.active {
     background-color: #0f172a;
