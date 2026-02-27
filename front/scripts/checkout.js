@@ -374,6 +374,7 @@ async function finishPurchase() {
     }
 }
 
+/*
 async function downloadTicketPDF(ticketId) {
     try {
         // Hacemos el fetch al endpoint del PDF
@@ -405,6 +406,7 @@ async function downloadTicketPDF(ticketId) {
         alert("La compra fue exitosa, pero hubo un error descargando el comprobante.");
     }
 }
+    */
 
 function sendWhatsapp(ticketInfo){
     const telephone = 5491153174467; // Número de teléfono del vendedor
@@ -426,4 +428,9 @@ function sendWhatsapp(ticketInfo){
     mensaje += `\n*TOTAL= $${total}*`;
     const whatsappURL = `https://wa.me/${telephone}?text=${encodeURIComponent(mensaje)}`;
     window.open(whatsappURL, '_blank');
+}
+
+function downloadTicketPDF(ticketId) {
+    const url = `${devBackendURL}/tickets/${ticketId}/pdf`;
+    window.open(url, "_blank");
 }

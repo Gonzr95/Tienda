@@ -98,7 +98,11 @@ export async function generateTicketPDF(req, res) {
         const doc = new PDFDOcument();
         const fileName = `ticket_${ticket.id}.pdf`;
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+        //res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+        res.setHeader(
+            'Content-Disposition',
+            `inline; filename="${fileName}"`
+        );
         doc.pipe(res);
 
 

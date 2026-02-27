@@ -87,7 +87,7 @@ async function loadProducts(category) {
         const fragment = document.createDocumentFragment();
 
         data.products.forEach(product => {
-            console.log('Renderizando producto:', product); // Debug: Ver cada producto antes de crear su tarjeta
+            if(product.stock < 1 || product.isActive === false ) return; // Opción: No mostrar productos sin stock{
             const productCard = createProductCard(product);
             fragment.appendChild(productCard);
         });

@@ -194,6 +194,21 @@ export async function openProductModal({ mode = "create", product = null } = {})
 
   const modalElement = document.getElementById("productModal");
   const modal = new bootstrap.Modal(modalElement);
+
+  document.getElementById("product-description").value = product ? product.description : "";
+  document.getElementById("product-active").checked = product ? product.isActive : true;
+
+  const brandSelect = document.getElementById("brand-select");
+
+brandSelect.innerHTML = allBrands.map(brand => `
+    <option value="${brand.id}" 
+        ${brand.id === product.brandId ? "selected" : ""}>
+        ${brand.name}
+    </option>
+`).join("");
+
+
+
   modal.show();
 
   attachProductModalEvents({ modal, mode, product, allBrands });
@@ -205,7 +220,7 @@ export async function openProductModal({ mode = "create", product = null } = {})
 function buildProductModalHTML({ mode, product, brands }) {
 
   const isEdit = mode === "edit";
-
+  console.log(product);
   return `
   <div class="modal fade" id="productModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -239,18 +254,32 @@ function buildProductModalHTML({ mode, product, brands }) {
               `<option value="${b.id}">${b.name}</option>`).join("")}
           </select>
 
-          <input class="form-control mb-3" id="product-line" placeholder="Línea">
+          <input class="form-control mb-3" 
+          id="product-line" 
+          placeholder="Línea"
+          value="${isEdit ? product.lineUp : ""}"
+          >
 
           <textarea 
             class="form-control mb-3"
             id="product-description"
             placeholder="Descripción"
+            value="${isEdit ? product.description : ""}"
           ></textarea>
 
-          <input class="form-control mb-3" id="product-price" type="number" placeholder="Precio">
+          <input class="form-control mb-3" 
+          id="product-price" 
+          type="number" 
+          placeholder="Precio"
+          value="${isEdit ? product.price : ""}"
+          >
 
 
-          <input class="form-control mb-3" id="product-stock" type="number" placeholder="Stock">
+          <input class="form-control mb-3" 
+            id="product-stock" 
+            type="number" 
+            placeholder="Stock" 
+            value="${isEdit ? product.stock : ""}">
 
           <div class="form-check form-switch mb-3">
             <input class="form-check-input" type="checkbox" id="product-active" checked>
