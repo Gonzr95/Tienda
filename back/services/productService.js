@@ -41,6 +41,7 @@ const saveToDisk = async (file, targetFolder) => {
     return webPath; 
 };
 
+
 export async function checkImages(files) {
         if( !files || files.length === 0 ) {
         //Lanzamos error si no hay imágenes
@@ -90,6 +91,25 @@ export async function saveImages(files, targetFolder) {
     // Ahora 'imagePaths' contiene el array limpio de rutas guardadas en el disco.
     return imagePaths;
 };
+
+export async function deleteImages(imagePaths) {
+
+    if (!imagePaths?.length) return;
+
+    await Promise.all(
+        imagePaths.map(async (imagePath) => {
+            try {
+                const fullPath = path.join(process.cwd(), imagePath);
+                await fs.unlink(fullPath);
+                console.log(`Imagen eliminada: ${fullPath}`);
+            } catch (err) {
+                if (err.code !== "ENOENT") {
+                    console.error(`Error eliminando ${imagePath}:`, err);
+                }
+            }
+        })
+    );
+}
 
 export async function checkProductsStock(products){
 

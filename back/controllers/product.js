@@ -1,5 +1,5 @@
 import { checkBrandExistenceByName } from '../services/brandService.js';
-import { checkProductExistenceByName, checkImages, createFolder, saveImages } from '../services/productService.js';
+import { checkProductExistenceByName, checkImages, createFolder, saveImages, deleteImages } from '../services/productService.js';
 import { Product } from '../models/product.js';
 import { Brand } from '../models/brand.js';
 import { Op, where } from 'sequelize';
@@ -108,12 +108,17 @@ export async function updateProduct(req, res) {
 
     // 3️⃣ Si vienen imágenes nuevas, validarlas y guardarlas
     if (files && files.length > 0) {
+      //checkImages verifica que files tenga imagenes
       await checkImages(files);
 
       targetFolder = existingProduct.productFolder 
         || await createFolder({ name, lineUp });
 
       imagePaths = await saveImages(files, targetFolder);
+
+      if( existingProduct.images && existingProduct.images.length > 0 ) {
+        await deleteImages(existingProduct.images);
+      }
     }
 
     // 4️⃣ Actualizar producto

@@ -23,4 +23,6 @@ router.put('/products/:id',
 
 router.get("/products/categories", getCategories);
 
+// delete solo pondra deleted at y no eliminara el producto de la base de datos, para mantener la integridad referencial con ordenes que puedan tener ese producto
+
 export { router };
