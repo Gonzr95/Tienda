@@ -33,4 +33,4 @@
 # Usuarios y tickets 
 - Se necesitara crear el sistema de registro de usuarios con el guardado de su informacion para gestionar domicilio que el cliente mismo lo pueda modificar
 - ticket debera ser modificado para poder poner cliente id sin nulls
-Reuitilizar y desacoplar codigo, separar responsabilidades.
+- Reuitilizar y desacoplar codigo, separar responsabilidades.

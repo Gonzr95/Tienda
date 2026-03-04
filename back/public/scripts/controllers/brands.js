@@ -183,7 +183,7 @@ async function deleteBrand(brand) {
   });
 
   if (!response.ok) {
-    Swal.fire("Error", "No se pudo eliminar la marca", "error");
+    Swal.fire("Error", "No se puede eliminar la marca si tiene productos asociados", "error");
     return;
   }
 

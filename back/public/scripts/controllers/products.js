@@ -238,7 +238,7 @@ function buildProductModalHTML({ mode, product, brands }) {
           <input 
             class="form-control mb-3" 
             id="product-type" 
-            placeholder="Tipo (ej: jabón)"
+            placeholder="Tipo (ej: jabón)"  
             value="${isEdit ? product.name : ""}"
             >
 
@@ -246,7 +246,7 @@ function buildProductModalHTML({ mode, product, brands }) {
             class="form-control mb-1" 
             id="brand-search" 
             placeholder="Buscar marca..."
-            value="${isEdit ? product.brand.name : ""}"
+            value="${isEdit ? product.brand?.name || "Sin marca" : ""}"
           >
 
           <select class="form-select mb-3" id="brand-select">
@@ -286,7 +286,35 @@ function buildProductModalHTML({ mode, product, brands }) {
             <label class="form-check-label">Activo</label>
           </div>
 
-          <input class="form-control" type="file" id="product-image">
+          <div class="mb-3">
+            <input 
+              class="form-control" 
+              type="file" 
+              id="product-image"
+              ${isEdit ? "" : "required"}
+            >
+            
+
+            ${isEdit && product.images?.length 
+    ? `<small class="text-info d-block mt-2">
+         Imagen actual cargada. Solo seleccione una nueva si desea reemplazarla.
+       </small>`
+    : ""
+  }
+
+${isEdit && product.images?.length 
+  ? `<img 
+       src="/${product.images[0]}" 
+       class="img-fluid rounded mb-2" 
+       style="max-height:90px;
+              width:auto;
+              margin-top:10px;
+              object-fit:contain;"
+       alt="Imagen actual del producto"
+     >`
+  : ""
+}
+          </div>
 
         </div>
 
@@ -392,13 +420,16 @@ if (payload.images) {
     throw new Error(errorData.message || "Error del servidor");
   }
   else{
-  Swal.fire({
-    icon: "success",
-    title: "Eliminado",
-    text: "La marca fue eliminada",
-    timer: 1500,
-    showConfirmButton: false,
-  });  }
+    Swal.fire({
+      icon: "success",
+      title: "Eliminado",
+      text: "La marca fue eliminada",
+      timer: 1500,
+      showConfirmButton: false,
+    }); 
+  }
+  handleProductosClick(); 
+
 
   return await response.json();
 }

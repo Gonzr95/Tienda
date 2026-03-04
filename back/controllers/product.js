@@ -191,7 +191,7 @@ export async function   getProducts(req, res) {
             if (maxPrice) whereCondition.price[Op.lte] = maxPrice;
         }
 
-        console.log('Where Condition:', whereCondition);
+        //console.log('Where Condition:', whereCondition);
         //console.log(typeof whereCondition.isActive);
         // 4. CONSULTA A LA BASE DE DATOS
         const { count, rows: products } = await Product.findAndCountAll({
@@ -279,3 +279,5 @@ export const getCategories = async (req, res) => {
     return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
+
+

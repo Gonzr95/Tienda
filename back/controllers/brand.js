@@ -5,6 +5,7 @@ import {
 
 }
 from '../services/brandService.js';
+import { Product } from "../models/product.js";
 
 export async function createBrand(req, res) {
     try {
@@ -80,20 +81,32 @@ export async function updateBrand(req, res) {
 export async function deleteBrand(req, res) {   
     try {
         const { id, name } = req.body;
-
+        //console.log('ID recibido para eliminación:', id);
         const brandToDelete = await Brand.findOne({ 
             where: { 
                 id, 
                 name
             }   
         });
+        //console.log('Marca encontrada para eliminación:', brandToDelete);
         if (!brandToDelete) {
             return res.status(404).json({
                 message: 'Brand not found'
             });
         }
 
+        // Verificar si la marca tiene productos asociados
+        const productsWithBrand = await Product.findAll({
+            where: {
+                brandId: id
+            }
+        });
 
+        if (productsWithBrand.length > 0) {
+            return res.status(409).json({
+                message: 'Cannot delete brand with associated products'
+            });
+        }
 
         await brandToDelete.destroy();
         return res.

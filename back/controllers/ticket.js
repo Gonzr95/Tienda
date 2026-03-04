@@ -141,7 +141,7 @@ export async function generateTicketPDF(req, res) {
             // En Sequelize, los datos de la tabla intermedia (ProductTicket)
             // se guardan usualmente en una propiedad llamada igual que la tabla,
             // o simplemente 'ProductTicket'. 
-            console.log("esto es el foreach de product: ", product);
+            //console.log("esto es el foreach de product: ", product);
             const quantity = product.Product_Ticket.quantity; 
             const price = Number(product.Product_Ticket.price); 
             const subtotal = quantity * Number(price);
