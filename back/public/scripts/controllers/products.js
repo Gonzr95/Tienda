@@ -197,6 +197,24 @@ export async function openProductModal({ mode = "create", product = null } = {})
 
   document.getElementById("product-description").value = product ? product.description : "";
   document.getElementById("product-active").checked = product ? product.isActive : true;
+  const imageInput = document.getElementById("product-image");
+const previewImg = document.getElementById("product-image-preview");
+
+imageInput.addEventListener("change", function () {
+
+  const file = this.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    previewImg.src = e.target.result;
+    previewImg.classList.remove("d-none");
+  };
+
+  reader.readAsDataURL(file);
+});
 
   const brandSelect = document.getElementById("brand-select");
 
@@ -296,23 +314,31 @@ function buildProductModalHTML({ mode, product, brands }) {
             
 
             ${isEdit && product.images?.length 
-    ? `<small class="text-info d-block mt-2">
-         Imagen actual cargada. Solo seleccione una nueva si desea reemplazarla.
-       </small>`
-    : ""
-  }
+              ? `<small class="text-info d-block mt-2">
+                  Imagen actual cargada. Solo seleccione una nueva si desea reemplazarla.
+                </small>`
+              : ""
+            }
 
-${isEdit && product.images?.length 
+          ${isEdit && product.images?.length 
   ? `<img 
-       src="/${product.images[0]}" 
-       class="img-fluid rounded mb-2" 
-       style="max-height:90px;
+      id="product-image-preview"
+      src="/${product.images[0]}" 
+      class="img-fluid rounded mb-2"
+      style="max-height:90px;
               width:auto;
               margin-top:10px;
               object-fit:contain;"
-       alt="Imagen actual del producto"
-     >`
-  : ""
+      alt="Imagen actual del producto"
+    >`
+  : `<img 
+      id="product-image-preview"
+      class="img-fluid rounded mb-2 d-none"
+      style="max-height:90px;
+              width:auto;
+              margin-top:10px;
+              object-fit:contain;"
+    >`
 }
           </div>
 
