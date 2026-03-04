@@ -16,7 +16,7 @@ export async function fetchBrands({ page = 1, limit = 10, sort = "ASC" } = {}) {
   params.append("sort", sort);
 
   const response = await fetch(`/api/brands?${params.toString()}`);
-  console.log("fetch uurl:", `/api/brands?${params.toString()}`);
+  //console.log("fetch uurl:", `/api/brands?${params.toString()}`);
   if (!response.ok) {
     throw new Error("Error al obtener las marcas");
   }

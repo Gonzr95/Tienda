@@ -1,10 +1,13 @@
 import express from 'express';
 import session from 'express-session';
-
-
-
-
+import cors from 'cors';
 const app = express();
+app.disable('X-Powered-by');
+console.log("No te olvides de configurar las variables de entorno en el archivo .env");
+console.log("Variables de entorno necesarias:");
+console.log("DB_USER, DB_PASS, DB_NAME, DB_HOST, DB_PORT, SERVER_PORT, DEV_FRONTEND_URL1, DEV_FRONTEND_URL2, DEV_BACKEND_URL");
+
+// ****** SESSION CONFIGURATION ******
 app.use(session({
   name: 'admin.sid',
   secret: 'super-secret-key',
@@ -17,59 +20,49 @@ app.use(session({
   }
 }));
 
+// ****** BODY PARSER CONFIGURATION ******
+app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies   
+app.use(express.json());
 
-
-
-app.disable('X-Powered-by');
-const port = process.env.PORT || 3000;
+const serverPort = process.env.SERVER_PORT || 3000;
 import path from 'path';
 import { fileURLToPath } from 'url';
-import cors from 'cors';
-
 import { connectDB } from "./db/sequelize.js";
 import { setupAssociations } from './models/associations.js';
-
-import { router as brandsRouter } from './routes/brands.js';
-import { router as productsRouter } from './routes/products.js';
-import { router as usersRouter } from './routes/users.js';
-import { router as backofficeRouter } from './routes/backoffice.js';
-import { router as administratorRouter } from './routes/administrator.js';
-import { router as ticketsRouter } from './routes/tickets.js';
+import { setupRoutes } from './routes/routes.cofig.js';
+ 
 
 setupAssociations();
 connectDB();
-// --- CONFIGURACIÓN PARA ESM ---
+
+
 // Convertimos la URL del módulo actual en una ruta de carpeta
 const __filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(__filename);
 
+
+// ****** STATIC FILES CONFIGURATION ******
 app.use(express.static(path.join(_dirname, 'public')));
 app.use('/uploads', express.static(path.join(_dirname, 'uploads')));
-//app.use('/uploads', express.static('uploads'));
-app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies   
-app.use(express.json());
 
-
+// ****** CORS CONFIGURATION ******
 app.use(cors({
     origin: [
-        //frontend URLS
-        process.env.FRONTEND_URL1, //localhost
-        process.env.FRONTEND_URL2  //ip
+        process.env.FRONTEND_URL1,
+        process.env.FRONTEND_URL2,
 
     ],
     methods: ["GET", "POST", "PUT", "DELETE"]
-    //credentials: true,
+    //credentials: true, 
 }));
+
+
+// ****** VIEW ENGINE CONFIGURATION ******
 app.set('view engine', 'ejs');
 app.set('views', './views');
-app.use('/api', brandsRouter);
-app.use('/api', productsRouter);
-app.use('/api', usersRouter);
-app.use('/api', administratorRouter);
-app.use('/', backofficeRouter)
-app.use('/api', ticketsRouter);
 
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+setupRoutes(app);
+app.listen(serverPort, () => {
+    console.log(`Server running on port ${serverPort}`);
 });
