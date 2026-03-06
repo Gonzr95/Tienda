@@ -184,3 +184,13 @@ export const decreaseStock = async (products) => {
         );
     }
 };
+
+export const increaseStock = async (products) => {
+
+    for (const product of products) {
+        await Product.update(
+            { stock: Product.sequelize.literal(`stock + ${product.quantity}`) },
+            { where: { id: product.id } }
+        );
+    }
+};

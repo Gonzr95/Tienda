@@ -180,10 +180,15 @@ export async function handleProductosClick() {
   renderProductsSection(response, mainContainer);
 }
 
-export async function openProductModal({ mode = "create", product = null } = {}) {
+export async function openProductModal({ mode, product = null } = {}) {
 
-  const allBrands = await fetchBrands(0, 'all', 'asc').then(data => data.brands);
-  //console.log("Marcas disponibles:", allBrands);
+  const brandsSearchOptions = {
+    page: 0,
+    limit: 'all',
+    sort: 'asc'
+  }
+  const allBrands = await fetchBrands(brandsSearchOptions).then(data => data.brands);
+  console.log("Marcas disponibles:", allBrands);
   const modalHTML = buildProductModalHTML({
     mode,
     product,
@@ -218,12 +223,16 @@ imageInput.addEventListener("change", function () {
 
   const brandSelect = document.getElementById("brand-select");
 
-brandSelect.innerHTML = allBrands.map(brand => `
+if (allBrands && allBrands.length > 0) {
+  brandSelect.innerHTML = allBrands.map(brand => `
     <option value="${brand.id}" 
-        ${brand.id === product.brandId ? "selected" : ""}>
+        ${brand.id === product?.brandId ? "selected" : ""}>
         ${brand.name}
     </option>
-`).join("");
+  `).join("");
+} else {
+  brandSelect.innerHTML = "";
+}
 
 
 
@@ -380,11 +389,12 @@ function attachProductModalEvents({ modal, allBrands, product }) {
   saveBtn.addEventListener("click", async () => {
 
     const payload = collectProductFormData();
-    payload.id = productInfo.id;
     try {
       if ( modal._element.querySelector(".modal-title").textContent.includes("Editar") ) {
         console.log("es editar");
         console.log("payload a enviar:", payload);
+            payload.id = productInfo.id;
+
         await updateProduct(payload);
         Swal.fire({
           icon: "success",
@@ -396,7 +406,7 @@ function attachProductModalEvents({ modal, allBrands, product }) {
       } else
       {
         await createProduct(payload);
-
+        handleProductosClick();
       }
       modal.hide();
     } catch (error) {
@@ -500,8 +510,8 @@ if (payload.images) {
   else{
   Swal.fire({
     icon: "success",
-    title: "Eliminado",
-    text: "La marca fue eliminada",
+    title: "Creado",
+    text: "El producto fue creado exitosamente",
     timer: 1500,
     showConfirmButton: false,
   });  }

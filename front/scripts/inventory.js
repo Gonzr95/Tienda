@@ -109,6 +109,7 @@ async function loadProducts(category) {
  * Separa la lógica de presentación de la lógica de datos.
  */
 function createProductCard(product) {
+    console.log('Creando tarjeta para producto:', product);
     const card = document.createElement('article');
     card.classList.add('product-card');
 

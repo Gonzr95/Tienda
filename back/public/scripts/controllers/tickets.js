@@ -10,7 +10,7 @@ export async function fetchTickets(page, limit, sortBy, sortOrder = "asc") {
 
 export async function handleTicketsClick() {
   clearMainContainer();
-//   const response = await fetchProducts(1, 10, "name", "asc");
+  const response = await fetchTickets(1, 10, "name", "desc");
 //   const mainContainer = document.getElementById("main-container");
 //   renderProductsSection(response, mainContainer);
 }

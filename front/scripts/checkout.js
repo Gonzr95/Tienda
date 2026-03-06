@@ -220,14 +220,22 @@ function createDeleteButton(product, productCard) {
     const deleteBtn = document.createElement('button');
     deleteBtn.classList.add('delete-btn');
     deleteBtn.innerHTML = '&times;'; // Símbolo de "X"
-
+    // console.log("Creando botón de eliminación para producto:", product);
+    
     deleteBtn.addEventListener('click', () => {
         orderSummary.removeChild(productCard);
         MyCart.removeProduct(product.id);
-        alert(`Producto ${product.product.brand} - ${product.product.lineUp} eliminado del carrito.`);
-
+        // alert(`Producto ${product.product.name} ${product.product.brand.name} - ${product.product.lineUp} eliminado del carrito.`);
+        calculateTotal();
+        Swal.fire({
+            icon: 'info',
+            title: 'Producto eliminado',
+            text: `Has eliminado ${product.product.name} ${product.product.brand.name} - ${product.product.lineUp} del carrito.`,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#3085d6'
+        });
     });
-
+    
     return deleteBtn;
 }
 

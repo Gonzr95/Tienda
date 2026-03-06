@@ -1,7 +1,7 @@
 // traer los controllers de brands
 import { handleBrandsClick } from "./controllers/brands.js";
 import { handleProductosClick } from "./controllers/products.js";
-import { handlePedidosClick } from "./controllers/tickets.js";
+import { handleTicketsClick } from "./controllers/tickets.js";
 
 
 const homeBtn = document.getElementById("home-btn");
@@ -34,7 +34,7 @@ export function clearMainContainer() {
 /* ***** Manejadores de eventos *******/
 marcasBtn.addEventListener("click", handleBrandsClick);
 productosBtn.addEventListener("click", handleProductosClick);
-pedidosBtn.addEventListener("click", handlePedidosClick);
+pedidosBtn.addEventListener("click", handleTicketsClick);
 
 
 

@@ -360,6 +360,13 @@ export async function getTickets(req, res) {
   }
 };
 
+/*
+    mediante params se recibe el id del ticket a actualiizar y se modifican los campos enviados en el body, que pueden ser:
+- customerName
+- customerLastName
+- status
+- comentario
+*/
 export async function updateTicket(req, res) {
   try {
     const { id } = req.params;

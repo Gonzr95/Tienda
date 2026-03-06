@@ -9,10 +9,17 @@ export async function fetchBrands({ page = 1, limit = 10, sort = "ASC" } = {}) {
 
   // Solo agregamos page si no es "all"
   if (limit !== "all") {
-    params.append("page", page);
+      params.append("limit", limit);
+      params.append("page", page);
+      console.log(params.toString);
   }
+  else{
+    params.append("limit", "all");
+          console.log(params.toString);
 
-  params.append("limit", limit);
+  }
+  
+
   params.append("sort", sort);
 
   const response = await fetch(`/api/brands?${params.toString()}`);
