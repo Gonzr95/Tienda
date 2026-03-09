@@ -11,6 +11,18 @@ export async function fetchTickets(page, limit, sortBy, sortOrder = "asc") {
 export async function handleTicketsClick() {
   clearMainContainer();
   const response = await fetchTickets(1, 10, "name", "desc");
-//   const mainContainer = document.getElementById("main-container");
+   const mainContainer = document.getElementById("main-container");
 //   renderProductsSection(response, mainContainer);
 }
+
+function renderTicketsSection(ticketsData, container) {
+  setSectionTitle("Tickets", "sectionTitle");
+
+  const tableHead = createtableHead();
+
+};
+
+function createTableHead() {
+  
+
+};

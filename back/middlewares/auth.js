@@ -46,11 +46,10 @@ export const authenticate = async (req, res, next) => {
 export const authenticateSession = (req, res, next) => {
   console.log("Session data:", req.session);
   if (!req.session || !req.session.admin) {
-    return res.redirect('/login');
+    return res.redirect('/api/backoffice');
   }
 
   // dejamos disponible el admin para las vistas
   req.admin = req.session.admin;
-
   next();
 };
