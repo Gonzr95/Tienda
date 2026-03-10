@@ -203,7 +203,7 @@ export async function openProductModal({ mode, product = null } = {}) {
   document.getElementById("product-description").value = product ? product.description : "";
   document.getElementById("product-active").checked = product ? product.isActive : true;
   const imageInput = document.getElementById("product-image");
-const previewImg = document.getElementById("product-image-preview");
+  const previewImg = document.getElementById("product-image-preview");
 
 imageInput.addEventListener("change", function () {
 

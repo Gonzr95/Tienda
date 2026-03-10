@@ -112,3 +112,55 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+
+
+
+
+
+
+
+.products-modal{
+
+  background:white;
+  padding:25px;
+  border-radius:8px;
+
+  width:700px;
+  max-width:90%;
+
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.modal-header{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  margin-bottom:15px;
+}
+
+.modal-close{
+  border:none;
+  background:none;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.modal-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.modal-table th,
+.modal-table td{
+  padding:8px;
+  border-bottom:1px solid #ddd;
+  text-align:left;
+}
+
+
+body.modal-open {
+  overflow: hidden;
+}

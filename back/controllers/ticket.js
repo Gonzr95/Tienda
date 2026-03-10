@@ -305,6 +305,7 @@ export async function getTickets(req, res) {
 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+
     // --------------------------------------------------
     // 4️⃣ Formateo limpio
     // --------------------------------------------------
@@ -320,7 +321,7 @@ export async function getTickets(req, res) {
       products: ticket.Products.map(product => ({
         id: product.id,
         name: product.name,
-        brand: product.Brand?.name || null,
+        brand: product.brand?.name || null,
         lineUp: product.lineUp,
         description: product.description,
         price: product.Product_Ticket.price,
