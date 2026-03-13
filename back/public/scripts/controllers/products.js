@@ -14,6 +14,7 @@ export async function fetchProducts(page, limit, sortBy, sortOrder = "asc") {
 function createProductosTable(products) {
   const wrapper = document.createElement("div");
   wrapper.className = "table-responsive";
+  
   const table = document.createElement("table");
   table.className = "table table-hover align-middle";
   table.id = "products-table";
@@ -137,7 +138,7 @@ async function refreshBrands() {
 
 //OK BIEN, crea header y button de add product
 function createProductsHeader() {
-const div = document.createElement("div");
+  const div = document.createElement("div");
   div.className = "d-flex justify-content-between align-items-center mb-4";
 
   setSectionTitle("Productos", "section-title");

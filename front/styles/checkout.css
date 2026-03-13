@@ -11,6 +11,7 @@ body {
     padding-top: 50px;    /* Espacio para el header fijo */
 }
 
+
 /* --- 2. HEADER FIJO (Inventario + Saludo + Categorías) --- */
 /* Creamos un contenedor virtual para lo que está arriba */
 .fixed-header-wrapper {
@@ -22,6 +23,7 @@ body {
     backdrop-filter: blur(10px);
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    padding-top: 10px;
     padding-bottom: 10px;
     display: flex;              
     flex-direction: column;     /* Elementos uno debajo del otro */
@@ -32,6 +34,9 @@ body {
 }
 
 /* Aseguramos que los contenedores internos no bloqueen el centrado */
+.brand-header{
+    font-size: 22px;
+}
 .brand-header, #greeting-section {
     width: 100%;             /* Ocupan todo el ancho */
     max-width: 1200px;       /* Pero con un límite razonable */
@@ -42,6 +47,10 @@ body {
     font-size: 0.95rem;
     color: #64748b;
     font-weight: 400;
+}
+.checkout-grid
+{
+    margin-top: 300px;
 }
 
 /* 1. EL CONTENEDOR (GRILLA) */

@@ -1,7 +1,7 @@
 import { Cart } from "./cart.js";
 const MyCart = new Cart();
 const orderSummary =  document.getElementById('order-summary');
-import { devBackendURL } from "./config.js";
+import { devBackendURL, prodBackendUrl } from "./config.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     loadCart();
@@ -322,7 +322,7 @@ async function finishPurchase() {
 
     try {
         // 2. HACER EL FETCH
-        const response = await fetch(`${devBackendURL}/tickets`, {
+        const response = await fetch(`${prodBackendUrl}/tickets`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -439,6 +439,6 @@ function sendWhatsapp(ticketInfo){
 }
 
 function downloadTicketPDF(ticketId) {
-    const url = `${devBackendURL}/tickets/${ticketId}/pdf`;
+    const url = `${prodBackendUrl}/tickets/${ticketId}/pdf`;
     window.open(url, "_blank");
 }

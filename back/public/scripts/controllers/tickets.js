@@ -6,6 +6,7 @@ export async function fetchTickets(page, limit, sortBy, sortOrder = "asc") {
   const response = await fetch(
   `/api/tickets?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}`
   );
+  console.log(`Fetching tickets with params: page=${page}, limit=${limit}, sortBy=${sortBy}, sortOrder=${sortOrder}`);
   return await response.json();
 }
 

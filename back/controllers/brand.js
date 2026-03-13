@@ -132,7 +132,6 @@ export async function getBrands(req, res) {
             limit = 10,
             sort = 'ASC'
         } = req.query;
-
         const orderDirection = sort.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
 
         // 🔵 CASO 1: Traer todas las marcas
@@ -167,6 +166,7 @@ export async function getBrands(req, res) {
         });
 
         const totalPages = Math.ceil(count / limit);
+            console.log("llego un req a brands ");
 
         return res.status(200).json({
             brands: brands,

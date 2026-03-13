@@ -42,8 +42,10 @@ export async function loginAdminSSR(req, res) {
       lastName: admin.admin.lastName,
     };
 
-    console.log("verificar este paso y la ruta cuando estes en nginx");
+    //console.log("verificar este paso y la ruta cuando estes en nginx");
     req.session.save(() => {
+        console.log(`req session en loginAdminSSR: 
+            ${req.session}`)
         res.redirect('/api/backoffice/home');
     });
 

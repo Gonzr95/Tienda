@@ -11,11 +11,11 @@ export async function fetchBrands({ page = 1, limit = 10, sort = "ASC" } = {}) {
   if (limit !== "all") {
       params.append("limit", limit);
       params.append("page", page);
-      console.log(params.toString);
+      //console.log(params.toString);
   }
   else{
     params.append("limit", "all");
-          console.log(params.toString);
+          //console.log(params.toString);
 
   }
   
@@ -23,7 +23,7 @@ export async function fetchBrands({ page = 1, limit = 10, sort = "ASC" } = {}) {
   params.append("sort", sort);
 
   const response = await fetch(`/api/brands?${params.toString()}`);
-  //console.log("fetch uurl:", `/api/brands?${params.toString()}`);
+  //console.log("fetch url:", `/api/brands?${params.toString()}`);
   if (!response.ok) {
     throw new Error("Error al obtener las marcas");
   }
@@ -32,7 +32,11 @@ export async function fetchBrands({ page = 1, limit = 10, sort = "ASC" } = {}) {
 }
 
 function createBrandsTable(brands) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "table-responsive";
+
   const table = document.createElement("table");
+  table.className = "table table-striped table-hover align-middle";
   table.classList.add("brands-table");
 
   const thead = document.createElement("thead");
@@ -76,22 +80,34 @@ function createBrandsTable(brands) {
  * @returns it only returns div that contains the button to create a brand
  */
 function createBrandsHeader() {
-  const container = document.createElement("div");
-  container.classList.add("brands-header");
-  setSectionTitle("Marcas", "section-title");
-  container.appendChild(createNewBrandButton());
-
-  return container;
+    const div = document.createElement("div");
+    div.className = "d-flex justify-content-between align-items-center mb-4";
+  
+    setSectionTitle("Marcas", "section-title");
+  
+    
+    const btn = createNewBrandButton();
+    div.appendChild(btn);
+  
+    return div;
 }
 function createBrandActions(brand) {
   const container = document.createElement("div");
 
   const editBtn = document.createElement("button");
-  editBtn.textContent = "Edit";
+  editBtn.className = "btn btn-sm btn-outline-info me-2";
+  const i = document.createElement("i");
+  i.className = "bi bi-pencil";
+  editBtn.appendChild(i)
+  // editBtn.textContent = "Edit";
   editBtn.addEventListener("click", () => openBrandModal({ mode: "edit", brand }));
 
   const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
+  deleteBtn.className = "btn btn-sm btn-outline-danger";
+  const i2 = document.createElement("i");
+  i2.className = "bi bi-trash"
+  
+  deleteBtn.appendChild(i2);
   deleteBtn.addEventListener("click", () => deleteBrand(brand));
 
   container.appendChild(editBtn);
@@ -216,8 +232,8 @@ async function refreshBrands() {
 }
 function createNewBrandButton() {
   const btn = document.createElement("button");
-  btn.textContent = "Nueva Marca";
-  btn.classList.add("btn-primary");
+  btn.className = "btn btn-primary";
+  btn.innerHTML = `<i class="bi bi-plus-lg"></i> Nueva marca`;
 
   btn.addEventListener("click", () => openBrandModal({ mode: "create" }));
 
@@ -250,6 +266,9 @@ function renderBrandsSection(data, container) {
 
 
 export async function handleBrandsClick() {
+//cambiar URL del navegador
+  history.pushState({}, "api/backoffice/brands");
+
   const data = fetchBrands(1, 10, "asc").then(data => {
       const mainContainer = document.getElementById("main-container");
       renderBrandsSection(data, mainContainer);

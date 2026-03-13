@@ -34,3 +34,14 @@
 - Se necesitara crear el sistema de registro de usuarios con el guardado de su informacion para gestionar domicilio que el cliente mismo lo pueda modificar
 - ticket debera ser modificado para poder poner cliente id sin nulls
 - Reuitilizar y desacoplar codigo, separar responsabilidades.
+
+
+
+aside por encima del header
+mejorar aside en celular
+cuando entras en productos y cerras el aside no se vuelve a abrir
+en pedidos tambien pasa lo mismo
+no se cierra el modal con la cruceta ni en ver pedidos EN EDITAR PEDIDOS SI
+MEJORAR EL APARTADO ESTETICO DE VER Y EDITAR PEDIDOS
+revisar controller de ticket para que si se hace una cancelacion, los productos vuelvan a su stock previo
+anadir en el apartado de tickets que se puedan activar filtros para los pedidos, FECHAS ESTADO ETC

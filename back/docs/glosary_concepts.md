@@ -21,3 +21,8 @@ Arquitectura para SSR
 Para renderizar los productos y o marcas en el backoffice no voy a hacer EJS puro ya que simplemente no me gusta la sintaxis.
 paso a cargar las cosas mediante js
 
+                // 1. Cambiar la URL visualmente sin recargar
+                // Esto pondrá en tu navegador: http://tusitio.com/?category=Farol
+const newUrl = new URL(window.location);
+newUrl.searchParams.set('category', categoryName);
+window.history.pushState({}, '', newUrl);

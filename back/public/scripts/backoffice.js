@@ -1,15 +1,18 @@
-const btnQuickAccess = document.getElementById('quick-access-btn');
+//const btnQuickAccess = document.getElementById('quick-access-btn');
 const userInput = document.getElementById('mail-input');
 const passwordInput = document.getElementById('password-input');
 const btnLogin = document.getElementById('login-btn');
 const backendURL = "http://localhost:3000/api/";
 
+
+/*
 btnQuickAccess.addEventListener('click', () => {
    
     userInput.value = 'gonz.r@hotmail.com';
     passwordInput.value = 'Inicio1.';
 
 });
+*/
 
 // --- LÓGICA DE LOGIN ---
 /*
