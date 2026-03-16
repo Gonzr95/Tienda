@@ -340,11 +340,11 @@ async function finishPurchase() {
         // 3. SOLO SI TODO SALIÓ BIEN: Limpiar y Redirigir
         console.log('Orden generada:', result);
         const { ticketId } = result;
-
-
-
+        
+        
+        
         sendWhatsapp(orderData);
-        await downloadTicketPDF(ticketId);
+        
         
         // 4. CONFIRMACIÓN DE ÉXITO (SweetAlert)
         // Cerramos el loader anterior y mostramos el éxito
@@ -352,18 +352,18 @@ async function finishPurchase() {
             icon: 'success',
             title: '¡Compra Exitosa!',
             html: `Su pedido ha sido procesado. <br>A continuacion las instrucciones para finalizar el pedido.<br>1)Descargue el comprobante y envieselo a su vendedor<br>  Gonzalo: 01153174467 <br>   Priscila: 01123023763<br>2)Envie el dinero junto con el comprobante<br>Le agradecemos su compra`,
-            confirmButtonText: 'Volver al inicio',
+            confirmButtonText: 'Descargar comprobante y volver al inicio',
             confirmButtonColor: '#3085d6', // Puedes cambiar el color del botón aquí
             allowOutsideClick: false // Obliga al usuario a dar click en el botón
         }).then((result) => {
             /* IMPORTANTE: 
-               Todo lo que sucede después del click del usuario va AQUÍ.
+            Todo lo que sucede después del click del usuario va AQUÍ.
             */
-            if (result.isConfirmed) {
-                // Limpieza
-                localStorage.removeItem('cart');
-                localStorage.removeItem('customerData'); 
-                
+           if (result.isConfirmed) {
+               // Limpieza
+               localStorage.removeItem('cart');
+               localStorage.removeItem('customerData'); 
+               downloadTicketPDF(ticketId);
                 // Redirección
                 window.location.href = 'index.html'; 
             }

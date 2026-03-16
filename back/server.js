@@ -99,7 +99,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url} ${req.originalUrl}`);
+    console.log(`${req.method} ${req.url}`);
     next();
 });
 setupRoutes(app);

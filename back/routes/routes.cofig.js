@@ -11,5 +11,5 @@ export function setupRoutes(app) {
     app.use('/api', usersRouter);
     app.use('/api', backofficeRouter);
     app.use('/api', administratorRouter);
-    app.use( ticketsRouter);
+    app.use('/api', ticketsRouter);
 }
