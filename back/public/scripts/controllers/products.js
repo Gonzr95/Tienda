@@ -504,20 +504,27 @@ if (payload.images) {
     body: formData
   });
 
+  console.log(`Status: ${response.status}`);
+
+  const text = await response.text();
+  console.log(`raw response:`, text);
+
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || "Error del servidor");
   }
   else{
-  Swal.fire({
-    icon: "success",
-    title: "Creado",
-    text: "El producto fue creado exitosamente",
-    timer: 1500,
-    showConfirmButton: false,
-  });  }
+    Swal.fire({
+      icon: "success",
+      title: "Creado",
+      text: "El producto fue creado exitosamente",
+      timer: 1500,
+      showConfirmButton: false,
+    });  
+  }
 
-  return await response.json();
+  //return await response.json();
+  return JSON.parse(text);
 }
 
 export async function fetchBrandsForSelect(search = "") {

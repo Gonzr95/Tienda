@@ -50,3 +50,19 @@ const calculateTotal = (products) => {
 
     return total.toFixed(2);
 };
+
+export const getProductsByTicketId = async (ticketId) => {
+
+  const rows = await Product_Ticket.findAll({
+    where: { ticketID: ticketId },
+    attributes: ["productId", "quantity"],
+    raw: true // para que venga en un formato mas piola
+  });
+
+  //console.log(rows);
+  return rows.map(r => ({
+    productId: r.productId,
+    quantity: r.quantity
+  }));
+
+};

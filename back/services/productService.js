@@ -2,6 +2,8 @@ import { Product } from "../models/product.js";
 import path from 'path';
 import fs from 'fs/promises';
 
+/*
+chequea que el producto a crear no coincida con otro en NOMBRE, LINEA NI DESCRIPCION, si hay coincidencia en las 3 no te deja crear*/
 export async function checkProductExistenceByName( productData ) {
     const existingProduct = await Product.findOne({
         where: {
@@ -68,11 +70,12 @@ export async function createFolder(productData) {
     const targetFolder = path.join('uploads', folderName);
     try{
         //sino existe la creo sino, nada
+        console.log(`Creando carpeta en: ${targetFolder}`);
         await fs.mkdir(targetFolder, { recursive: true });
         return targetFolder;
     }catch(err){   
         console.log("Error al crear la carpeta: ", err);
-        return res.status(500).json({ message: "Error al crear la carpeta de imágenes" });
+        throw new Error("error creating image folder");
     }
 
 };
@@ -193,4 +196,17 @@ export const increaseStock = async (products) => {
             { where: { id: product.id } }
         );
     }
+};
+
+export const restoreStock = async (products) => {
+
+  for (const item of products) {
+
+    await Product.increment(
+      { stock: item.quantity },
+      { where: { id: item.productId } }
+    );
+
+  }
+
 };
