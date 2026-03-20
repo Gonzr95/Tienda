@@ -53,9 +53,57 @@ Este es un proyecto que funciona como una tienda personal que permite al adminis
 - [✅] UI para ABM de productos
 - [✅] UI para visualizacion de pedidos
 
-## 📷 Capturas
+## 📷 Capturas en dispositivos moviles
 <p align="center">
-  <img src="back/docs/screenshots/Welcome-mobile.jpeg" width="600">
-  <em>Ingreso en dispositivos moviles<em/>
+  <img src="back/docs/screenshots/Welcome-mobile.jpeg" width="300">
+  <em>Ingreso<em/>
 </p>
 
+
+<p align="center">
+  <img src="back/docs/screenshots/Inventory2-mobile.jpeg" width="300">
+  <em>Inventario<em/>
+</p>
+
+<p align="center">
+  <img src="back/docs/screenshots/Cart2-mobile.jpeg" width="300">
+  <em>Carrito<em/>
+</p>
+
+<p align="center">
+  <img src="back/docs/screenshots/Cart-mobile.jpeg" width="300">
+  <em>Carrito <em/>
+</p>
+
+
+## 📷 Capturas en PC
+
+<p align="center">
+  <img src="back/docs/screenshots/login-pc.png" width="300">
+  <em>Login<em/>
+</p>
+
+<p align="center">
+  <img src="back/docs/screenshots/ABM Marcas.png" width="300">
+  <em>ABM Marcas<em/>
+</p>
+
+<p align="center">
+  <img src="back/docs/screenshots/ABM Prods.png" width="300">
+  <em>ABM Prods<em/>
+</p>
+
+<p align="center">
+  <img src="back/docs/screenshots/notification-pc.png" width="300">
+  <em>Compra de usuario<em/>
+</p>
+
+<p align="center">
+  <img src="back/docs/screenshots/pdf-pc.png" width="300">
+  <em>Orden de compra<em/>
+</p>
+
+<p align="center">
+  <img src="back/docs/screenshots/Whatsapp-pc.jpegpng" width="300">
+  <em>Envio de pedido<em/>
+</p>
