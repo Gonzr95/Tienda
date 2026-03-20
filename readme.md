@@ -1,20 +1,26 @@
 # Tienda
+Pueden visitar la pagina siguiendo el enlace:
+https://gonzadev.tplinkdns.com/ecotanti
 
 ## 🎯 Objetivo
 Este es un proyecto que funciona como una tienda personal que permite al administrador y usuario las siguientes acciones:
-- Dar de alta marcas de productos para una mejor organizacion de la tienda.
-- Dar de alta los productos.
+- ABM de marcas de productos.
+- ABM de productos.
 - Manejar stock en tiempo real.
-- Aplicar descuentos o incrementos de precios a varios productos segun categoria u otros criterios de agrupacion.
-- Registro de usuarios.
+- Usuarios podran hacer compras de los productos que haya en stock
+- El administrador podra modificar el estado de los pedidos (pendiente, finalizado, cancelado etc)
+- Si un pedido se cancela, los productos que componen el pedido vuelven al inventario
 - Conexion con Whatsapp entre cliente y administrador.
 
 
 ## 📌 Requsitos
 - Funcionales
-    - 
+    - ABM de marcas
+    - ABM de productos
+    - Manejo de stock
+    - Integracion con Whatsapp
 - No funcionales
-    - 
+    - Innterfaz limpia, clara y despejada de elementos innecesarios que interrumpan el proceso de compra
 
 ## 🧱 Stack Tecnologico
 - Node JS
@@ -27,7 +33,7 @@ Este es un proyecto que funciona como una tienda personal que permite al adminis
 
 ## 🏃‍♂️‍➡️ Como ejecuto el proyecto?
 - Setear variables de entorno.
-- En la carpeta back correr npm install
+- En la carpeta back ejecutar npm install
 - Una vez instalados los paquetes correr el proyecto con npm run dev
 
 ## 📂 Estructura del proyecto
@@ -37,12 +43,19 @@ Este es un proyecto que funciona como una tienda personal que permite al adminis
 
 
 ## ☑️ Estado 
-- [X] Registro de usuarios
-- [X] Login de usuarios
-- [X] SSR
-- [X] Registro de Admin
-- [X] Login con autenticacion para Admin
-- [-] Backoffice
-- [X] UI para ABM de Marcas
-- [X] UI para ABM de productos
-- [] UI para visualizacion de pedidos
+- [✅] Registro de usuarios
+- [✅] Login de usuarios
+- [✅] SSR
+- [✅] Registro de Admin
+- [✅] Login con autenticacion para Admin
+- [✅] Backoffice
+- [✅] UI para ABM de Marcas
+- [✅] UI para ABM de productos
+- [✅] UI para visualizacion de pedidos
+
+## 📷 Capturas
+<p align="center">
+  <img src="back/docs/screenshots/Welcome-mobile.jpeg" width="600">
+  <em>Ingreso en dispositivos moviles<em/>
+</p>
+
