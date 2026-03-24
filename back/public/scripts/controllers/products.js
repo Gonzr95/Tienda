@@ -28,9 +28,11 @@ function createProductosTable(products) {
         <th>Marca</th>
         <th>Linea</th>
         <th>Descripcion</th>
-        <th>Activo</th>
+        <th>Comprado en</th>
+        <th>Precio de compra</th>
         <th>Precio</th>
         <th>Stock</th>
+        <th>Activo</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -62,6 +64,14 @@ function createProductosTable(products) {
 
         <td>${product.description || '-'}</td>
 
+        <td>${product.boughtAt || '-'}</td>
+
+        <td>$${Number(product.buyPrice).toLocaleString()}</td>
+
+        <td>$${Number(product.price).toLocaleString()}</td>
+
+        <td>${product.stock}</td>
+
         <td>
           ${
             product.isActive
@@ -69,10 +79,6 @@ function createProductosTable(products) {
               : '<span class="badge bg-danger">Inactivo</span>'
           }
         </td>
-
-        <td>$${Number(product.price).toLocaleString()}</td>
-
-        <td>${product.stock}</td>
 
         <td>
           <button class="btn btn-sm btn-outline-info me-2"
@@ -295,6 +301,21 @@ function buildProductModalHTML({ mode, product, brands }) {
             value="${isEdit ? product.description : ""}"
           ></textarea>
 
+          <textarea 
+            class="form-control mb-3"
+            id="product-boughtAt"
+            placeholder="Comprado en"
+            value="${isEdit ? product.boughtAt : ""}"
+          ></textarea>
+
+          
+          <input class="form-control mb-3" 
+            id="product-buyPrice" 
+            type="number" 
+            placeholder="precio de Compra"
+            value="${isEdit ? product.buyPrice : ""}"
+          >
+
           <input class="form-control mb-3" 
           id="product-price" 
           type="number" 
@@ -427,6 +448,10 @@ export async function updateProduct(payload) {
   formData.append("brandName", payload.brandName);
   formData.append("lineUp", payload.lineUp);
   formData.append("description", payload.description);
+
+  formData.append("boughtAt", payload.boughtAt);
+  formData.append("buyPrice", payload.buyPrice);
+
   formData.append("stock", payload.stock);
   formData.append("price", payload.price);
   formData.append("isActive", payload.isActive);
@@ -544,6 +569,12 @@ function collectProductFormData() {
     brandName: brandName,
     lineUp: document.getElementById("product-line").value.trim(),
     description: document.getElementById("product-description").value.trim(),
+
+
+    boughtAt: document.getElementById("product-boughtAt").value.trim(),
+    buyPrice: parseFloat(document.getElementById("product-buyPrice").value),
+
+
     stock: parseInt(document.getElementById("product-stock").value),
     price: parseFloat(document.getElementById("product-price").value),
     isActive: document.getElementById("product-active").checked,

@@ -33,6 +33,16 @@ export const createSchema = z.object({
     coerce.number()
     .nonnegative(),
 
+    buyPrice: z.
+    coerce.number()
+    .nonnegative(),
+
+    boughtAt: z
+    .string()
+    .nonempty()
+    .min(2)
+    .max(100),
+
     isActive: z
     .enum(["true", "false"], {
     errorMap: () => ({

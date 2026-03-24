@@ -22,7 +22,7 @@ export async function createProduct(req, res) {
                 message: 'Brand not found'
             });
         }
-        console.log("Se encontro la marca: ", existingBrand);
+        //console.log("Se encontro la marca: ", existingBrand);
         
         const productData = {
             name: req.body.name,
@@ -35,12 +35,12 @@ export async function createProduct(req, res) {
                 message: 'Product already exists'
             });
         }
-        console.log(`no hay existing product, sigo ${existingProduct}`);
+        //console.log(`no hay existing product, sigo ${existingProduct}`);
 
-        const { name, lineUp, description, price, stock, isActive } = req.body;
+        const { name, lineUp, description, price, buyPrice, boughtAt, stock, isActive } = req.body;
         const files = req.files;
         await checkImages(files);
-        console.log(`Sigo porque encontre imagenes`);
+        //console.log(`Sigo porque encontre imagenes`);
         const targetFolder = await createFolder(productData);
         const imagePaths = await saveImages(files, targetFolder);
 
@@ -50,6 +50,8 @@ export async function createProduct(req, res) {
             lineUp,
             description,
             price,
+            buyPrice,
+            boughtAt,
             stock,
             isActive,
             images: imagePaths, // Array de rutas de imágenes
@@ -99,6 +101,8 @@ export async function updateProduct(req, res) {
       name,
       lineUp,
       description,
+      boughtAt,
+      buyPrice,
       price,
       stock,
       isActive
@@ -130,6 +134,8 @@ export async function updateProduct(req, res) {
       brandId: existingBrand.id,
       lineUp,
       description,
+      boughtAt,
+      buyPrice,
       price,
       stock,
       isActive,

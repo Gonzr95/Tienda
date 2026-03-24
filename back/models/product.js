@@ -30,6 +30,15 @@ export const Product = sequelize.define("Product", {
     },
     price: {
         type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+    buyPrice: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+
+    boughtAt: {
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     stock: {
