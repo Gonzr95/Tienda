@@ -190,7 +190,10 @@ export async function   getProducts(req, res) {
         // Usamos 'iLike' de Postgres si quieres búsqueda insensible a mayúsculas, 
         // o coincidencia exacta si prefieres. Aquí uso exacta para seguir tu ejemplo:
         //if (brand) whereCondition.brand = brand;
-        if ( brand ) { whereCondition.brandId = brand; }
+        //if ( brand ) { whereCondition.brandId = brand; }
+        if (sortBy === "brand") {
+          sortBy = "brandId";
+        }   
 
         if (name) whereCondition.name = name;
 

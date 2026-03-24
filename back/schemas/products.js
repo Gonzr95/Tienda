@@ -65,7 +65,7 @@ export const getProductsQuerySchema = z.object({
     .default(10),
 
     sortBy: z
-    .enum(['id', 'name', 'price', 'brand', 'price', 'isActive'])
+    .enum(['id', 'name', 'price', 'brand', 'price', 'isActive', 'boughtAt'])
     .default('id')
     .optional(),
 

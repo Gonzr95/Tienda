@@ -2,14 +2,40 @@ import { createPaginationV2 } from "../utils/pagination.js";
 import { clearMainContainer, setSectionTitle } from "../home.js";
 import { fetchBrands } from "./brands.js";
 
+let currentFilters = {
+  page: 1,
+  limit: 10,
+  sortBy: "id",
+  sortOrder: "ASC",
+  // filterBy: null
+};
 
 
-export async function fetchProducts(page, limit, sortBy, sortOrder = "asc") {
-  const response = await fetch(
-  `/api/products?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder || "asc"}`
-  );
+// export async function fetchProducts(page, limit, sortBy, sortOrder = "asc") {
+//   const response = await fetch(
+//   `/api/products?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder || "asc"}`
+//   );
+//   return await response.json();
+// }
+
+export async function fetchProducts(filters) {
+  const query = new URLSearchParams();
+
+  query.append("page", filters.page);
+  query.append("limit", filters.limit);
+  query.append("sortBy", filters.sortBy);
+  query.append("sortOrder", filters.sortOrder);
+
+  // 👇 filtro dinámico (clave)
+  if (filters.filterBy && filters.filterValue) {
+    query.append(filters.filterBy, filters.filterValue);
+  }
+
+  const response = await fetch(`/api/products?${query.toString()}`);
   return await response.json();
 }
+
+
 
 function createProductosTable(products) {
   const wrapper = document.createElement("div");
@@ -149,40 +175,90 @@ function createProductsHeader() {
 
   setSectionTitle("Productos", "section-title");
 
+
+
   const btn = document.createElement("button");
   btn.className = "btn btn-primary";
   btn.id = "new-product-btn";
   btn.innerHTML = `<i class="bi bi-plus-lg"></i> Nuevo Producto`;
 
+
+
   btn.addEventListener("click", () => openProductModal({ mode: "create" }));
   div.appendChild(btn);
+  
+
 
   return div;
 }
 
+function createFiltersOptions() {
+  const divFilters = document.createElement("div");
+  divFilters.innerHTML = `
+  <div class="d-flex gap-2">
+
+    <!-- 🔍 FILTRAR POR -->
+    <div class="dropdown">
+      <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Filtrar por
+      </button>
+
+      <div class="dropdown-menu">
+        <a class="dropdown-item sort-option" href="#" data-filter="name">Producto</a>
+        <a class="dropdown-item sort-option" href="#" data-filter="brand">Marca</a>
+        <a class="dropdown-item sort-option" href="#" data-filter="boughtAt">Comprado en</a>
+      </div>
+    </div>
+
+    <!-- ↕️ ORDEN -->
+    <div class="dropdown">
+      <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Orden
+      </button>
+
+      <div class="dropdown-menu">
+        <a class="dropdown-item order-option" href="#" data-order="ASC">Ascendente</a>
+        <a class="dropdown-item order-option" href="#" data-order="DESC">Descendente</a>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" id="apply-sort">Ordenar</button>
+
+  </div>
+`
+
+  return divFilters
+}
+
 export function renderProductsSection(data, container) {
   const header = createProductsHeader();
+  const filters = createFiltersOptions();
+
   const table = createProductosTable(data.products);
 
   const pagination = createPaginationV2(
     data.pagination, (page) => {
-      fetchProducts(page, 10, "name", "asc").then(newData => {
+      currentFilters.page = page
+      fetchProducts(currentFilters).then(newData => {
         clearMainContainer();
         renderProductsSection(newData, container);
       });
     });
 
   container.appendChild(header);
+  container.appendChild(filters)
   container.appendChild(table);
   assingnEvents();
   container.appendChild(pagination);
+
+  attachFiltersEvents();
 
   // asignar los eventos
 }
 
 export async function handleProductosClick() {
   clearMainContainer();
-  const response = await fetchProducts(1, 10, "name", "asc");
+  const response = await fetchProducts(currentFilters);
   const mainContainer = document.getElementById("main-container");
   renderProductsSection(response, mainContainer);
 }
@@ -599,4 +675,42 @@ function renderBrandOptions(brands, selectElement) {
   selectElement.innerHTML = brands
     .map(b => `<option value="${b.id}">${b.name}</option>`)
     .join("");
+}
+
+
+
+
+
+
+
+
+function attachFiltersEvents(){
+  document.querySelectorAll(".sort-option").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault(); // 👈 IMPORTANTE
+      currentFilters.sortBy = btn.dataset.filter;
+      btn.closest(".dropdown").querySelector("button").textContent = btn.textContent;
+      console.log("Filtro seleccionado:", currentFilters.sortBy);
+    });
+  });
+
+  document.querySelectorAll(".order-option").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      currentFilters.sortOrder = btn.dataset.order;
+      btn.closest(".dropdown").querySelector("button").textContent = btn.textContent;
+      console.log("orden seleccionado:", currentFilters.sortOrder);
+    });
+  });
+
+  document.getElementById("apply-sort").addEventListener("click", async () => {
+    console.log("Aplicando orden:", currentFilters);
+    const data = await fetchProducts(
+      currentFilters
+    );
+    
+    clearMainContainer();
+    const mainContainer = document.getElementById("main-container");
+    renderProductsSection(data, mainContainer);
+
+  });
 }
