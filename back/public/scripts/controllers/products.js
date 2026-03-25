@@ -265,6 +265,7 @@ export async function handleProductosClick() {
 
 export async function openProductModal({ mode, product = null } = {}) {
 
+  console.log("Este es el modo:", mode);
   const brandsSearchOptions = {
     page: 0,
     limit: 'all',
@@ -329,8 +330,9 @@ if (allBrands && allBrands.length > 0) {
 } 
 function buildProductModalHTML({ mode, product, brands }) {
 
+  console.log("esto es build product modal y el resultado del mode es: ", mode);
   const isEdit = mode === "edit";
-  console.log(product);
+  console.log("Este es el producto que llegaen edicion: ", product);
   return `
   <div class="modal fade" id="productModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -488,11 +490,10 @@ function attachProductModalEvents({ modal, allBrands, product }) {
 
     const payload = collectProductFormData();
     try {
-      if ( modal._element.querySelector(".modal-title").textContent.includes("Editar") ) {
+      if(modal._element.querySelector(".modal-title").textContent.includes("Editar") ) {
         console.log("es editar");
         console.log("payload a enviar:", payload);
-            payload.id = productInfo.id;
-
+        payload.id = productInfo.id;
         await updateProduct(payload);
         Swal.fire({
           icon: "success",
@@ -501,14 +502,15 @@ function attachProductModalEvents({ modal, allBrands, product }) {
           timer: 1500,
           showConfirmButton: false,
         });
-      } else
-      {
+      } 
+      else{
+        console.log("Es un create")
         await createProduct(payload);
         handleProductosClick();
       }
       modal.hide();
     } catch (error) {
-      Swal.fire({
+        Swal.fire({
         icon: "error",
         title: "Error",
         text: error.message || "No se pudo crear el producto"
@@ -573,23 +575,26 @@ if (payload.images) {
 }
 
 export async function createProduct(payload) {
-
+  console.log("Esto es la data que ira en el payload: ", payload);
   const formData = new FormData();
 
   formData.append("name", payload.name);
   formData.append("brandName", payload.brandName);
   formData.append("lineUp", payload.lineUp);
   formData.append("description", payload.description);
+  formData.append("boughtAt", payload.boughtAt);
+  formData.append("buyPrice", payload.buyPrice);
+
   formData.append("stock", payload.stock);
   formData.append("price", payload.price);
   formData.append("isActive", payload.isActive);
-/*
+
   for (let pair of formData.entries()) {
   console.log(pair[0], pair[1]);
   }
-*/
-//Tratamiento de imagenes
-if (payload.images) {
+
+  //Tratamiento de imagenes
+  if (payload.images) {
   // Si viene como FileList
   if (payload.images.length !== undefined) {
     for (let i = 0; i < payload.images.length; i++) {
@@ -639,28 +644,23 @@ export async function fetchBrandsForSelect(search = "") {
 function collectProductFormData() {
   const select = document.getElementById("brand-select");
   const brandName = select.options[select.selectedIndex].text;
-
+  console.log("Entre en el collectoProductFormData");
   const data = {
     name: document.getElementById("product-type").value.trim(),
     brandName: brandName,
     lineUp: document.getElementById("product-line").value.trim(),
     description: document.getElementById("product-description").value.trim(),
 
-
     boughtAt: document.getElementById("product-boughtAt").value.trim(),
     buyPrice: parseFloat(document.getElementById("product-buyPrice").value),
-
-
     stock: parseInt(document.getElementById("product-stock").value),
     price: parseFloat(document.getElementById("product-price").value),
     isActive: document.getElementById("product-active").checked,
     images: document.getElementById("product-image").files
     
   };
-
+  console.log(data);
   return data;
-
-
 }
 
 
