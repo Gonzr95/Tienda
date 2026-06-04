@@ -427,9 +427,10 @@ function sendWhatsapp(ticketInfo){
     ticketInfo.products.forEach(item => {
         const subtotal = item.quantity * item.price;
         total += subtotal;
+        console.log(item);
         
         // Formato: - Marca LineUp - Cantidad unidades
-        mensaje += `- ${item.brand.name} ${item.lineUp} - ${item.quantity} unidades\n`;
+        mensaje += `- ${item.name} ${item.brand.name} ${item.lineUp} - ${item.quantity} unidades\n`;
     });
 
     // 3. Total final

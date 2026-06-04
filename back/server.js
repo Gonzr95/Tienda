@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import expressListRoutes from 'express-list-routes';
 
-//import cors from 'cors';
+import cors from 'cors';
 
 const app = express();
 app.disable('X-Powered-by');
@@ -92,6 +92,16 @@ app.use(express.static(path.join(_dirname, 'public')));
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //     credentials: true
 // }));
+
+// ****** CORS CONFIGURATION ******
+// Solo necesaria en desarrollo ya que con nginx todo vivira en el mismo dominio.
+app.use(cors({
+    origin: [
+        'http:192.168.17.193:4200'
+    ],
+    methods: ["GET"],
+    credentials: true
+}));
 
 
 // ****** VIEW ENGINE CONFIGURATION ******
